@@ -1,0 +1,28 @@
+{
+  "name": "battle-city-ts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc --watch && node ./dist/src/index.js",
+    "lint": "eslint",
+    "prettier": "prettier --write ./src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/verner-vladislav23/battle-city-ts.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/verner-vladislav23/battle-city-ts/issues"
+  },
+  "homepage": "https://github.com/verner-vladislav23/battle-city-ts#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.21.0",
+    "@typescript-eslint/parser": "^5.21.0",
+    "eslint": "^8.14.0",
+    "prettier": "^2.6.2",
+    "typescript": "^4.6.4"
+  }
+}
