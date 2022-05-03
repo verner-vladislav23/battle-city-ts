@@ -9,7 +9,7 @@ module.exports = {
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle-[chunkhash].js',
+    filename: 'bundle.js',
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
@@ -40,14 +40,6 @@ module.exports = {
           'sass-loader',
         ],
       },
-      // {
-      //   test: /\.(svg|woff|woff2|ttf|eot|otf)([\?]?.*)$/,
-      //   use: [
-      //     {
-      //       loader: 'file-loader?name=assets/fonts/[name].[ext]',
-      //     },
-      //   ],
-      // },
     ],
   },
   plugins: [

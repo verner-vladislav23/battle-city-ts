@@ -1,3 +1,3 @@
-const t: number = 6;
+const t: any = 6;
 
 console.log(t);
