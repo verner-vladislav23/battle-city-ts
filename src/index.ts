@@ -1,4 +1,4 @@
-import Canvas from './lib/canvas/Canvas';
+import Canvas from './dom/canvas/Canvas';
 
 window.addEventListener("load", initCanvas);
 
