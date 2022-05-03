@@ -4,9 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "webpack serve --mode=development --progress --env development",
+    "start": "webpack server --mode development --open",
     "build": "webpack",
-    "start": "tsc --watch",
     "lint": "eslint",
     "prettier": "prettier --write ./src"
   },

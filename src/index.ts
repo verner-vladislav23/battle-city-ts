@@ -1,3 +1,8 @@
-const t: any = 6;
+window.addEventListener("load", () => {
+  console.log('HELLO TANKS');
+  const header = document.createElement("h1");
+  header.innerText = "Hello Tanks"
 
-console.log(t);
+  const body = document.querySelector("body");
+  body?.appendChild(header);
+})

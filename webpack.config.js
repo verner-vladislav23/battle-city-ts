@@ -9,14 +9,14 @@ module.exports = {
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: 'bundle[hash].js',
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
   },
   devServer: {
     static:  {
-      directory: 'src/index.html',
+      directory: './dist',
       watch: true,
     },
     compress: true,
