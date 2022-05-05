@@ -19,7 +19,7 @@ module.exports = {
       watch: true,
     },
     compress: true,
-    port: 3000,
+    port: 3004,
   },
   module: {
     rules: [
