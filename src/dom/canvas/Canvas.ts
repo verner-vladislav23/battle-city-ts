@@ -1,13 +1,15 @@
 import Tank from '../../models/Tank/Tank';
+import { ITank } from '../../models/Tank/interface';
+import { keyDownEvent } from './events';
 
 type InitialSettings = Readonly<{
   width: number;
-  height: number
-}>
+  height: number;
+}>;
 
-const CANVAS_NODE_ID = "canvas";
-const CANVAS_CONTEXT_ID = "2d";
-const CANVAS_TAG_NAME = "canvas";
+const CANVAS_NODE_ID = 'canvas';
+const CANVAS_CONTEXT_ID = '2d';
+const CANVAS_TAG_NAME = 'canvas';
 
 export default class Canvas {
   private _ctx: CanvasRenderingContext2D | null;
@@ -26,11 +28,11 @@ export default class Canvas {
     const canvas = document.createElement(CANVAS_TAG_NAME);
     const canvasContext = canvas.getContext(CANVAS_CONTEXT_ID);
 
-    canvas.style.display = "block";
-    canvas.style.marginLeft = "auto";
-    canvas.style.marginRight = "auto";
-    canvas.style.marginTop = "50px";
-    canvas.style.border = "1px solid black";
+    canvas.style.display = 'block';
+    canvas.style.marginLeft = 'auto';
+    canvas.style.marginRight = 'auto';
+    canvas.style.marginTop = '50px';
+    canvas.style.border = '1px solid black';
     canvas.height = 500;
     canvas.width = 800;
     canvas.tabIndex = 0;
@@ -42,13 +44,16 @@ export default class Canvas {
 
   private listenKeyboard(): void {
     const tank = new Tank({ x: 10, y: 10 });
-    this.ctx.fillRect(tank.position.x, tank.position.y, 50, 50);
+    this.ctx.fillRect(
+      tank.position.x,
+      tank.position.y,
+      tank.height,
+      tank.width,
+    );
 
-    this.node.addEventListener('keydown', (event) => {
-      this.ctx.clearRect(tank.position.x, tank.position.y, 50, 50);
-      tank.moveRight();
-      this.ctx.fillRect(tank.position.x, tank.position.y, 50, 50);
-    });
+    this.node.addEventListener('keydown', event =>
+      keyDownEvent<ITank>(event, this.ctx, tank),
+    );
   }
 
   public get ctx(): Readonly<CanvasRenderingContext2D> {
@@ -56,7 +61,9 @@ export default class Canvas {
   }
 
   static get node(): HTMLCanvasElement {
-    const node = document.getElementById(CANVAS_NODE_ID) as HTMLCanvasElement | null;
+    const node = document.getElementById(
+      CANVAS_NODE_ID,
+    ) as HTMLCanvasElement | null;
 
     if (node === null) {
       throw new Error(`We couldn't get canvas node by ${CANVAS_NODE_ID}`);
@@ -69,7 +76,7 @@ export default class Canvas {
     const ctx = Canvas.node.getContext(CANVAS_CONTEXT_ID);
 
     if (ctx === null) {
-      throw new Error("We couldn't get context")
+      throw new Error("We couldn't get context");
     }
 
     return ctx;

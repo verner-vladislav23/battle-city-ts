@@ -1,9 +1,9 @@
 import Canvas from './dom/canvas/Canvas';
 
-window.addEventListener("load", initCanvas);
+window.addEventListener('load', initCanvas);
 
 function initCanvas() {
-  const body = document.querySelector("body");
+  const body = document.querySelector('body');
 
   const canvas = new Canvas({
     width: 800,
