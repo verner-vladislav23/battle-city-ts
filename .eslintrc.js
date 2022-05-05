@@ -4,7 +4,7 @@ const ERROR = 2;
 
 module.exports = {
   parser: '@typescript-eslint/parser',
-  plugins: ["@typescript-eslint"],
+  plugins: ['@typescript-eslint'],
   overrides: [
     {
       files: ['*.ts', '*.tsx'],
@@ -15,6 +15,9 @@ module.exports = {
       parserOptions: {
         project: ['./tsconfig.json'],
       },
+      rules: {
+        '@typescript-eslint/no-empty-interface': OFF,
+      },
     },
   ],
-}
+};
