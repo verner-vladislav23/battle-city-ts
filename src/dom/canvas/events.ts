@@ -16,70 +16,26 @@ export function keyDownEvent<Model extends ITank>(
     case KEYBOARD_ARROW_KEY.RIGHT: {
       // TODO: add rerender methods
       if (ctx.canvas.width <= model.position.x + model.width) break;
-      ctx.clearRect(
-        model.position.x,
-        model.position.y,
-        model.height,
-        model.width,
-      );
       model.moveRight();
-      ctx.fillRect(
-        model.position.x,
-        model.position.y,
-        model.height,
-        model.width,
-      );
+      model.render();
       break;
     }
     case KEYBOARD_ARROW_KEY.LEFT: {
       if (0 >= model.position.x) break;
-      ctx.clearRect(
-        model.position.x,
-        model.position.y,
-        model.height,
-        model.width,
-      );
       model.moveLeft();
-      ctx.fillRect(
-        model.position.x,
-        model.position.y,
-        model.height,
-        model.width,
-      );
+      model.render();
       break;
     }
     case KEYBOARD_ARROW_KEY.UP: {
       if (0 >= model.position.y) break;
-      ctx.clearRect(
-        model.position.x,
-        model.position.y,
-        model.height,
-        model.width,
-      );
       model.moveUp();
-      ctx.fillRect(
-        model.position.x,
-        model.position.y,
-        model.height,
-        model.width,
-      );
+      model.render();
       break;
     }
     case KEYBOARD_ARROW_KEY.DOWN: {
       if (ctx.canvas.height <= model.position.y + model.height) break;
-      ctx.clearRect(
-        model.position.x,
-        model.position.y,
-        model.height,
-        model.width,
-      );
       model.moveDown();
-      ctx.fillRect(
-        model.position.x,
-        model.position.y,
-        model.height,
-        model.width,
-      );
+      model.render();
       break;
     }
   }

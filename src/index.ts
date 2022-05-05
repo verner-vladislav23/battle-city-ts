@@ -5,10 +5,9 @@ window.addEventListener('load', initCanvas);
 function initCanvas() {
   const body = document.querySelector('body');
 
-  const canvas = new Canvas({
+  new Canvas({
     width: 800,
     height: 500,
-  });
+  }).mountTo(body);
 
-  body?.appendChild(canvas.node);
 }

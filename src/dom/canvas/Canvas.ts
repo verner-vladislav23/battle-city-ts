@@ -21,7 +21,6 @@ export default class Canvas {
     this._node = null;
 
     this.init();
-    this.listenKeyboard();
   }
 
   private init() {
@@ -45,16 +44,16 @@ export default class Canvas {
 
   private listenKeyboard(): void {
     const tank = new Tank({ x: 10, y: 10 });
-    this.ctx.fillRect(
-      tank.position.x,
-      tank.position.y,
-      tank.height,
-      tank.width,
-    );
+    tank.render();
 
     this.node.addEventListener('keydown', event =>
       keyDownEvent<ITank>(event, this.ctx, tank),
     );
+  }
+
+  public mountTo(node: HTMLElement | null) {
+    node?.appendChild(this.node);
+    this.listenKeyboard();
   }
 
   public get ctx(): Readonly<CanvasRenderingContext2D> {
