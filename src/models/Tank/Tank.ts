@@ -3,7 +3,7 @@ import { ITank } from './interface';
 
 const TANK_HEIGHT = 50;
 const TANK_WITH = 50;
-const STEP = 20;
+const STEP = 10;
 
 export default class Tank implements ITank {
   public height: number;

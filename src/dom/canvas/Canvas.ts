@@ -37,6 +37,7 @@ export default class Canvas {
     canvas.width = 800;
     canvas.tabIndex = 0;
     canvas.id = CANVAS_NODE_ID;
+    canvas.autofocus = true;
 
     this._ctx = canvasContext;
     this._node = canvas;
