@@ -1,5 +1,5 @@
 import { IIterable } from './interface';
-import { Position } from './types';
+import { Position } from '../../types/position';
 
 const DEFAULT_STEP = 10;
 
