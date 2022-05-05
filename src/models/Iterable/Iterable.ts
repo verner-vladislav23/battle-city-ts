@@ -21,7 +21,7 @@ export default abstract class Iterable implements IIterable {
     this._step = step || DEFAULT_STEP;
   }
 
-  public moveRight():void {
+  public moveRight(): void {
     this.position = { ...this.position, x: this.position.x + this._step };
   }
 
