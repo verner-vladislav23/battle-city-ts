@@ -1,12 +1,9 @@
-import Canvas from './dom/canvas/Canvas';
+import MapLayerCtx from './dom/layers/Map/MapLayerCtx';
+import MotionLayerCtx from './dom/layers/Motion/MotionLayerCtx';
 
 window.addEventListener('load', initCanvas);
 
 function initCanvas() {
-  const body = document.querySelector('body');
-  new Canvas({
-    width: 800,
-    height: 500,
-  }).mountTo(body);
-
+  new MotionLayerCtx();
+  new MapLayerCtx();
 }
