@@ -1,6 +1,6 @@
 import { Position } from '../../types/position';
 
-export interface IIterable {
+export interface IMotion {
   position: Position;
   prevPosition: Position | undefined;
   height: number;

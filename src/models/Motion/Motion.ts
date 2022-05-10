@@ -1,10 +1,10 @@
-import { IIterable } from './interface';
+import { IMotion } from './interface';
 import { PrevPosition } from './types';
 import { Position } from '../../types/position';
 
 const DEFAULT_STEP = 10;
 
-export default abstract class Iterable implements IIterable {
+export default abstract class Motion implements IMotion {
   position: Position;
   prevPosition: PrevPosition;
   readonly height: number;
