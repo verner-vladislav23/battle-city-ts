@@ -47,7 +47,7 @@ export default class Canvas {
     tank.render();
 
     this.node.addEventListener('keydown', event =>
-      keyDownEvent<ITank>(event, this.ctx, tank),
+      keyDownEvent<ITank>(event, tank),
     );
   }
 

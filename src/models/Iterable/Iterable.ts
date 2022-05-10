@@ -1,14 +1,15 @@
 import { IIterable } from './interface';
+import { PrevPosition } from './types';
 import { Position } from '../../types/position';
 
 const DEFAULT_STEP = 10;
 
 export default abstract class Iterable implements IIterable {
   position: Position;
+  prevPosition: PrevPosition;
   readonly height: number;
   readonly width: number;
   private readonly _step: number;
-  private _stackPosition: Position[];
 
   protected constructor(
     position: Position,
@@ -17,43 +18,30 @@ export default abstract class Iterable implements IIterable {
     step?: number,
   ) {
     this.position = position;
+    this.prevPosition = undefined;
     this.height = height;
     this.width = width;
     this._step = step || DEFAULT_STEP;
-    this._stackPosition = [this.position];
   }
 
-  private trackPosition(): void {
-    this._stackPosition.push(this.position);
-  }
-
-  public get prevPosition(): Position | undefined {
-    const prevPositionIndex = this._stackPosition.length - 2;
-    return this._stackPosition[prevPositionIndex];
-  }
-
-  public get currentPosition(): Position {
-    const prevPositionIndex = this._stackPosition.length - 1;
-    return this._stackPosition[prevPositionIndex];
+  private move(position: Position): void {
+    this.prevPosition = this.position;
+    this.position = position;
   }
 
   public moveRight(): void {
-    this.position = { ...this.position, x: this.position.x + this._step };
-    this.trackPosition();
+    this.move({ ...this.position, x: this.position.x + this._step });
   }
 
   public moveLeft(): void {
-    this.position = { ...this.position, x: this.position.x - this._step };
-    this.trackPosition();
+    this.move({ ...this.position, x: this.position.x - this._step });
   }
 
   public moveUp(): void {
-    this.position = { ...this.position, y: this.position.y - this._step };
-    this.trackPosition();
+    this.move({ ...this.position, y: this.position.y - this._step })
   }
 
   public moveDown(): void {
-    this.position = { ...this.position, y: this.position.y + this._step };
-    this.trackPosition();
+    this.move({ ...this.position, y: this.position.y + this._step });
   }
 }

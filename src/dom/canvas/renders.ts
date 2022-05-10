@@ -16,10 +16,10 @@ export class Render {
     }
 
     ctx?.fillRect(
-      tank.currentPosition.x,
-      tank.currentPosition.y,
+      tank.position.x,
+      tank.position.y,
       tank.height,
       tank.width,
-    )
+    );
   }
 }
