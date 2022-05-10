@@ -4,7 +4,6 @@ window.addEventListener('load', initCanvas);
 
 function initCanvas() {
   const body = document.querySelector('body');
-
   new Canvas({
     width: 800,
     height: 500,

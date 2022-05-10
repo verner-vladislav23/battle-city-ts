@@ -14,7 +14,7 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js'],
   },
   devServer: {
-    static:  {
+    static: {
       directory: './dist',
       watch: true,
     },
@@ -26,6 +26,10 @@ module.exports = {
       {
         test: /\.(ts|tsx)?$/,
         loader: 'ts-loader',
+      },
+      {
+        test: /\.png/,
+        type: 'asset/source',
       },
       {
         test: /\.(sa|sc|c)ss$/,
