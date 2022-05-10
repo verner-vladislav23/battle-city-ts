@@ -1,10 +1,10 @@
-import Canvas from './Canvas';
 import { ITank } from '../../models/Tank/interface';
+import MotionLayer from '../layers/Motion/MotionLayer';
 
 
 export class Render {
   static renderTank(tank: ITank) {
-    const ctx = Canvas.ctx;
+    const ctx = MotionLayer.ctx;
 
     if (tank.prevPosition) {
       ctx?.clearRect(

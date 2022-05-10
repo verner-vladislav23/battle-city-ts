@@ -1,12 +1,10 @@
-import Canvas from './dom/canvas/Canvas';
+import MapLayer from './dom/layers/Map/MapLayer';
+import MotionLayer from './dom/layers/Motion/MotionLayer';
 
 window.addEventListener('load', initCanvas);
 
 function initCanvas() {
   const body = document.querySelector('body');
-  new Canvas({
-    width: 800,
-    height: 500,
-  }).mountTo(body);
-
+  new MotionLayer().mountTo(body).listenKeyboard();
+  new MapLayer().mountTo(body);
 }
