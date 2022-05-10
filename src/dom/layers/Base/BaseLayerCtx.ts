@@ -4,7 +4,7 @@ import { LAYER_SIZE } from '../../../constants/layer';
 const CANVAS_CONTEXT_ID = '2d';
 const CANVAS_TAG_NAME = 'canvas';
 
-export default class BaseLayer {
+export default class BaseLayerCtx {
   private _ctx: CanvasRenderingContext2D | null;
   private _node: HTMLCanvasElement | null;
 
@@ -13,6 +13,7 @@ export default class BaseLayer {
     this._node = null;
 
     this.init(initialSettings);
+    this.mountTo();
   }
 
   protected init(initialSettings: InitialSettings) {
@@ -36,9 +37,9 @@ export default class BaseLayer {
     this._node = canvas;
   }
 
-  public mountTo(node: HTMLElement | null) {
-    node?.appendChild(this.node);
-    return this;
+  private mountTo() {
+    const body = document.querySelector('body');
+    body?.appendChild(this.node);
   }
 
   public get ctx(): Readonly<CanvasRenderingContext2D> {
@@ -56,7 +57,7 @@ export default class BaseLayer {
   }
 
   static getCtx(nodeId: string): CanvasRenderingContext2D {
-    const ctx = BaseLayer.getNode(nodeId).getContext(CANVAS_CONTEXT_ID);
+    const ctx = BaseLayerCtx.getNode(nodeId).getContext(CANVAS_CONTEXT_ID);
 
     if (ctx === null) {
       throw new Error("We couldn't get context");

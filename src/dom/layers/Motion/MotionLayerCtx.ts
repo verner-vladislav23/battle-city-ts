@@ -1,5 +1,5 @@
 import { InitialSettings } from '../../../types/layer';
-import BaseLayer from '../Base/BaseLayer';
+import BaseLayerCtx from '../Base/BaseLayerCtx';
 import Tank from '../../../models/Tank/Tank';
 import { keyDownEvent } from '../../canvas/events';
 import { ITank } from '../../../models/Tank/interface';
@@ -11,13 +11,14 @@ const INITIAL_SETTINGS: InitialSettings = {
   autofocus: true,
 };
 
-export default class MotionLayer extends BaseLayer {
+export default class MotionLayerCtx extends BaseLayerCtx {
 
   constructor() {
     super(INITIAL_SETTINGS);
+    this.listenKeyboard();
   }
 
-  public listenKeyboard(): void {
+  private listenKeyboard(): void {
     const tank = new Tank({ x: 10, y: 10 });
     tank.render();
 
@@ -27,10 +28,10 @@ export default class MotionLayer extends BaseLayer {
   }
 
   static get node() {
-    return BaseLayer.getNode(LAYER_NODE_ID);
+    return BaseLayerCtx.getNode(LAYER_NODE_ID);
   }
 
   static get ctx() {
-    return BaseLayer.getCtx(LAYER_NODE_ID);
+    return BaseLayerCtx.getCtx(LAYER_NODE_ID);
   }
 }

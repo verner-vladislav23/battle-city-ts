@@ -1,4 +1,4 @@
-import BaseLayer from '../Base/BaseLayer';
+import BaseLayerCtx from '../Base/BaseLayerCtx';
 import Map from '../../../models/Map/Map';
 import { InitialSettings } from '../../../types/layer';
 
@@ -9,7 +9,7 @@ const INITIAL_SETTINGS: InitialSettings = {
   autofocus: false,
 };
 
-export default class MapLayer extends BaseLayer {
+export default class MapLayerCtx extends BaseLayerCtx {
   private _map: Map | null;
 
   constructor() {
@@ -28,10 +28,10 @@ export default class MapLayer extends BaseLayer {
   }
 
   static get node() {
-    return BaseLayer.getNode(LAYER_NODE_ID);
+    return BaseLayerCtx.getNode(LAYER_NODE_ID);
   }
 
   static get ctx() {
-    return BaseLayer.getCtx(LAYER_NODE_ID);
+    return BaseLayerCtx.getCtx(LAYER_NODE_ID);
   }
 }

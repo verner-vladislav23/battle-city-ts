@@ -1,3 +1,3 @@
-export * from './Map/MapLayer';
-export * from './Base/BaseLayer';
-export * from './Motion/MotionLayer';
+export * from './Map/MapLayerCtx';
+export * from './Base/BaseLayerCtx';
+export * from './Motion/MotionLayerCtx';
