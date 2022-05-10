@@ -8,4 +8,4 @@ export type MapEntity = {
   surmountable: boolean;
   position: Position;
   size: Size;
-}
+};

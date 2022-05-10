@@ -25,5 +25,4 @@ export default class Map implements IMap {
   constructor() {
     this._mapEntities = MAP_ENTITIES;
   }
-
 }

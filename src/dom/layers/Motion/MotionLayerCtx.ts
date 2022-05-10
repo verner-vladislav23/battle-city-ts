@@ -12,7 +12,6 @@ const INITIAL_SETTINGS: InitialSettings = {
 };
 
 export default class MotionLayerCtx extends BaseLayerCtx {
-
   constructor() {
     super(INITIAL_SETTINGS);
     this.listenKeyboard();
