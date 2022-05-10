@@ -1,10 +1,10 @@
-import Canvas from './Canvas';
+import MotionLayerCtx from '../layers/Motion/MotionLayerCtx';
 import { ITank } from '../../models/Tank/interface';
 import { IBullet } from '../../models/Bullet/interface';
 
 export class Render {
   static renderTank(tank: ITank) {
-    const ctx = Canvas.ctx;
+    const ctx = MotionLayerCtx.ctx;
 
     if (tank.prevPosition) {
       ctx?.clearRect(
@@ -19,7 +19,7 @@ export class Render {
   }
 
   static renderBullet(bullet: IBullet) {
-    const ctx = Canvas.ctx;
+    const ctx = MotionLayerCtx.ctx;
     if (bullet.prevPosition) {
       ctx?.clearRect(
         bullet.prevPosition.x,
