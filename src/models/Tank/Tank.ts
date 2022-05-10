@@ -4,6 +4,8 @@ import { Render } from '../../dom/canvas/renders';
 import { ITank } from './interface';
 import Motion from '../Motion/Motion';
 import Bullet from '../Bullet/Bullet';
+// import Motion from '../Motion/Motion';
+// import Bullet from '../Bullet/Bullet';
 import {
   TANK_HEIGHT,
   TANK_WIDTH,

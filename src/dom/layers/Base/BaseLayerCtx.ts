@@ -22,8 +22,7 @@ export default class BaseLayerCtx {
 
     canvas.style.position = 'absolute';
     canvas.style.display = 'block';
-    canvas.style.marginLeft = 'auto';
-    canvas.style.marginRight = 'auto';
+    canvas.style.marginLeft = '30%';
     canvas.style.marginTop = '50px';
     canvas.style.border = '1px solid black';
     canvas.style.zIndex = initialSettings.zIndex;

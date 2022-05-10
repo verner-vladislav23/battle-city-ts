@@ -1,4 +1,4 @@
-import Iterable from '../Motion/Motion';
+import Motion from '../Motion/Motion';
 import { Position } from '../../types/position';
 import { Render } from '../../dom/canvas/renders';
 import { IBullet } from './interface';
@@ -6,7 +6,7 @@ import { TANK_DIRECTION } from '../Tank/constants';
 import { TankDirection } from '../Tank/types';
 import { BULLET_STEP, BULLET_WIDTH, BULLET_HEIGHT } from './constants';
 
-export default class Bullet extends Iterable implements IBullet {
+export default class Bullet extends Motion implements IBullet {
   private readonly updatePositionIntervalId: number;
   private tick: number;
 
