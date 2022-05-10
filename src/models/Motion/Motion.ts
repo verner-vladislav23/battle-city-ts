@@ -38,7 +38,7 @@ export default abstract class Motion implements IMotion {
   }
 
   public moveUp(): void {
-    this.move({ ...this.position, y: this.position.y - this._step })
+    this.move({ ...this.position, y: this.position.y - this._step });
   }
 
   public moveDown(): void {

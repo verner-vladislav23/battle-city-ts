@@ -15,12 +15,7 @@ export class Render {
       );
     }
 
-    ctx?.fillRect(
-      tank.position.x,
-      tank.position.y,
-      tank.height,
-      tank.width,
-    );
+    ctx?.fillRect(tank.position.x, tank.position.y, tank.height, tank.width);
   }
 
   static renderBullet(bullet: IBullet) {

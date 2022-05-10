@@ -20,9 +20,7 @@ export default class Bullet extends Iterable implements IBullet {
     }, 5);
   }
 
-  private updatePositionByTankDirection(
-    tankDirection: TankDirection
-  ): void {
+  private updatePositionByTankDirection(tankDirection: TankDirection): void {
     if (this.tick > 500) {
       window.clearInterval(this.updatePositionIntervalId);
       return;

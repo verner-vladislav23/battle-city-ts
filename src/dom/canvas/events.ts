@@ -33,10 +33,6 @@ export function keyDownEvent<Model extends ITank>(
       model.render();
       break;
     }
-    case KEYBOARD_ARROW_KEY.SHOT: {
-      model.shot();
-      break;
-    }
   }
 
   switch (event.code) {

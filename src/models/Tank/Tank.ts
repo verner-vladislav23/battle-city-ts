@@ -9,7 +9,7 @@ import {
   TANK_WIDTH,
   TANK_STEP,
   TANK_DIRECTION,
-  INITIAL_TANK_DIRECTION
+  INITIAL_TANK_DIRECTION,
 } from './constants';
 import { TankDirection } from './types';
 
@@ -42,7 +42,7 @@ export default class Tank extends Motion implements ITank {
       return TANK_DIRECTION.LEFT;
     }
 
-      return TANK_DIRECTION.DOWN;
+    return TANK_DIRECTION.DOWN;
   }
 
   public shot(): Bullet {
