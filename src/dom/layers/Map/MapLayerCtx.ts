@@ -10,20 +10,18 @@ const INITIAL_SETTINGS: InitialSettings = {
 };
 
 export default class MapLayerCtx extends BaseLayerCtx {
-  private _map: Map | null;
+  private map: Map;
 
   constructor() {
     super(INITIAL_SETTINGS);
-    this._map = new Map();
+    this.map = new Map();
     this.renderMap();
   }
 
   private renderMap() {
-    if (this._map?.mapEntities) {
-      for (let i = 0; i < (this._map?.mapEntities?.length ?? 0); i++) {
-        const { position, size } = this._map?.mapEntities[i];
-        this.ctx.fillRect(position.x, position.y, size.width, size.height);
-      }
+    for (const mapEntity of this.map.entities) {
+      const { position, size } = mapEntity;
+      this.ctx.fillRect(position.x, position.y, size.width, size.height);
     }
   }
 
