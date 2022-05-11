@@ -10,30 +10,31 @@ export class Render {
       ctx?.clearRect(
         tank.prevPosition.x,
         tank.prevPosition.y,
-        tank.height,
         tank.width,
+        tank.height,
       );
     }
 
-    ctx?.fillRect(tank.position.x, tank.position.y, tank.height, tank.width);
+    ctx?.fillRect(tank.position.x, tank.position.y, tank.width, tank.height);
   }
 
   static renderBullet(bullet: IBullet) {
     const ctx = MotionLayerCtx.ctx;
+
     if (bullet.prevPosition) {
       ctx?.clearRect(
         bullet.prevPosition.x,
         bullet.prevPosition.y,
-        bullet.height,
         bullet.width,
+        bullet.height,
       );
     }
 
     ctx?.fillRect(
       bullet.position.x,
       bullet.position.y,
-      bullet.height,
       bullet.width,
+      bullet.height,
     );
   }
 }
