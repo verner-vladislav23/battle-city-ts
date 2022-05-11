@@ -6,6 +6,10 @@ const KEYBOARD_ARROW_KEY = {
   DOWN: 'ArrowDown',
   UP: 'ArrowUp',
   SHOT: 'Space',
+} as const;
+
+const KEYBOARD_CODE = {
+  SHOT: 'Space',
 };
 
 export function keyDownEvent<Model extends ITank>(
@@ -36,7 +40,7 @@ export function keyDownEvent<Model extends ITank>(
   }
 
   switch (event.code) {
-    case KEYBOARD_ARROW_KEY.SHOT: {
+    case KEYBOARD_CODE.SHOT: {
       model.shot();
       break;
     }
