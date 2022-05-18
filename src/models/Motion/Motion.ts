@@ -39,7 +39,10 @@ export default abstract class Motion implements IMotion {
     };
   }
 
-  private handleCollision(intentNextP1: Position, intentNextP2: Position): void {
+  private handleCollision(
+    intentNextP1: Position,
+    intentNextP2: Position,
+  ): void {
     if (!Map.getMap().hasCollision(intentNextP1, intentNextP2)) {
       this.move(intentNextP1);
       return;
@@ -49,28 +52,40 @@ export default abstract class Motion implements IMotion {
   }
 
   public moveRight(): void {
-    const intentNextPosition1 = { ...this.position, x: this.position.x + this._step };
+    const intentNextPosition1 = {
+      ...this.position,
+      x: this.position.x + this._step,
+    };
     const intentNextPosition2 = this.getNextPosition2(intentNextPosition1);
 
     this.handleCollision(intentNextPosition1, intentNextPosition2);
   }
 
   public moveLeft(): void {
-    const intentNextPosition1 = { ...this.position, x: this.position.x - this._step };
+    const intentNextPosition1 = {
+      ...this.position,
+      x: this.position.x - this._step,
+    };
     const intentNextPosition2 = this.getNextPosition2(intentNextPosition1);
 
     this.handleCollision(intentNextPosition1, intentNextPosition2);
   }
 
   public moveUp(): void {
-    const intentNextPosition1 = { ...this.position, y: this.position.y - this._step };
+    const intentNextPosition1 = {
+      ...this.position,
+      y: this.position.y - this._step,
+    };
     const intentNextPosition2 = this.getNextPosition2(intentNextPosition1);
 
     this.handleCollision(intentNextPosition1, intentNextPosition2);
   }
 
   public moveDown(): void {
-    const intentNextPosition1 = { ...this.position, y: this.position.y + this._step };
+    const intentNextPosition1 = {
+      ...this.position,
+      y: this.position.y + this._step,
+    };
     const intentNextPosition2 = this.getNextPosition2(intentNextPosition1);
 
     this.handleCollision(intentNextPosition1, intentNextPosition2);
