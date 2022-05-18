@@ -7,8 +7,9 @@ import { TankDirection } from '../Tank/types';
 import { BULLET_STEP, BULLET_WIDTH, BULLET_HEIGHT } from './constants';
 
 export default class Bullet extends Motion implements IBullet {
-  private readonly updatePositionIntervalId: number;
-  private tick: number;
+  private readonly _intervalId: number;
+  private _tick: number;
+  private _destructed: boolean;
 
   constructor(public tankPosition: Position, tankDirection: TankDirection) {
     super(tankPosition, BULLET_HEIGHT, BULLET_WIDTH, BULLET_STEP);
@@ -16,11 +17,11 @@ export default class Bullet extends Motion implements IBullet {
       tankPosition,
       tankDirection,
     );
-    this.tick = 0;
+    this._destructed = false;
+    this._tick = 0;
 
-    this.updatePositionIntervalId = window.setInterval(() => {
+    this._intervalId = window.setInterval(() => {
       this.updatePositionByTankDirection(tankDirection);
-      this.render();
     }, 5);
   }
 
@@ -58,9 +59,15 @@ export default class Bullet extends Motion implements IBullet {
     return tankPosition;
   }
 
+  public destroy(): void {
+    this._destructed = true;
+    window.clearInterval(this._intervalId);
+    this.clear();
+  }
+
   private updatePositionByTankDirection(tankDirection: TankDirection): void {
-    if (this.tick > 500) {
-      window.clearInterval(this.updatePositionIntervalId);
+    if (this._tick > 500) {
+      this.destroy();
       return;
     }
 
@@ -83,10 +90,17 @@ export default class Bullet extends Motion implements IBullet {
       }
     }
 
-    this.tick++;
+    if (!this._destructed) {
+      this.render();
+      this._tick++;
+    }
   }
 
   render() {
     Render.renderBullet(this);
+  }
+
+  clear() {
+    Render.clearBullet(this);
   }
 }

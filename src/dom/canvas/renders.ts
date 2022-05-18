@@ -48,4 +48,15 @@ export class Render {
       bullet.height,
     );
   }
+
+  static clearBullet(bullet: IBullet) {
+    const ctx = MotionLayerCtx.ctx;
+
+    ctx.clearRect(
+      bullet.position.x,
+      bullet.position.y,
+      bullet.width,
+      bullet.height,
+    );
+  }
 }
