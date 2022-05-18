@@ -4,8 +4,6 @@ import { Render } from '../../dom/canvas/renders';
 import { ITank } from './interface';
 import Motion from '../Motion/Motion';
 import Bullet from '../Bullet/Bullet';
-// import Motion from '../Motion/Motion';
-// import Bullet from '../Bullet/Bullet';
 import {
   TANK_HEIGHT,
   TANK_WIDTH,
@@ -49,6 +47,11 @@ export default class Tank extends Motion implements ITank {
 
   public shot(): Bullet {
     const bullet = new Bullet(this.position, this.direction);
+
+    bullet.onCollision = (collisionP1, collisionP2) => {
+      console.log({ collisionP1, collisionP2 });
+      bullet.destroy();
+    };
 
     return bullet;
   }

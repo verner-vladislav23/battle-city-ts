@@ -1,8 +1,9 @@
 import { InitialSettings } from '../../../types/layer';
 import BaseLayerCtx from '../Base/BaseLayerCtx';
+import Map from '../../../models/Map/Map';
 import Tank from '../../../models/Tank/Tank';
+
 import { keyDownEvent } from '../../canvas/events';
-import { ITank } from '../../../models/Tank/interface';
 
 const LAYER_NODE_ID = 'motion-layer';
 const INITIAL_SETTINGS: InitialSettings = {
@@ -18,12 +19,13 @@ export default class MotionLayerCtx extends BaseLayerCtx {
   }
 
   private listenKeyboard(): void {
+    const map = Map.getMap();
     const tank = new Tank({ x: 10, y: 10 });
-    tank.render();
 
-    this.node.addEventListener('keydown', event =>
-      keyDownEvent<ITank>(event, tank),
-    );
+    tank.render();
+    map.render();
+
+    this.node.addEventListener('keydown', event => keyDownEvent(event, tank));
   }
 
   static get node() {

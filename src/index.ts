@@ -4,6 +4,6 @@ import MotionLayerCtx from './dom/layers/Motion/MotionLayerCtx';
 window.addEventListener('load', initCanvas);
 
 function initCanvas() {
-  new MotionLayerCtx();
   new MapLayerCtx();
+  new MotionLayerCtx();
 }
