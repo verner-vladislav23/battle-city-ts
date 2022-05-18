@@ -17,4 +17,5 @@ export type Box = {
   type: 'box';
 } & BaseMapEntityProperties;
 
+export type MapKey = Position;
 export type MapEntity = Wall | Box;

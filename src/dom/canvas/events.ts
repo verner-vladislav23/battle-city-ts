@@ -5,43 +5,39 @@ const KEYBOARD_ARROW_KEY = {
   LEFT: 'ArrowLeft',
   DOWN: 'ArrowDown',
   UP: 'ArrowUp',
-  SHOT: 'Space',
 } as const;
 
 const KEYBOARD_CODE = {
   SHOT: 'Space',
-};
+} as const;
 
-export function keyDownEvent<Model extends ITank>(
-  event: KeyboardEvent,
-  model: Model,
-) {
+export function keyDownEvent(event: KeyboardEvent, tank: ITank): void {
   switch (event.key) {
     case KEYBOARD_ARROW_KEY.RIGHT: {
-      model.moveRight();
-      model.render();
+      tank.moveRight();
+      tank.render();
       break;
     }
     case KEYBOARD_ARROW_KEY.LEFT: {
-      model.moveLeft();
-      model.render();
+      tank.moveLeft();
+      tank.render();
       break;
     }
     case KEYBOARD_ARROW_KEY.UP: {
-      model.moveUp();
-      model.render();
+      tank.moveUp();
+      tank.render();
       break;
     }
     case KEYBOARD_ARROW_KEY.DOWN: {
-      model.moveDown();
-      model.render();
+      tank.moveDown();
+      tank.render();
       break;
     }
   }
 
   switch (event.code) {
     case KEYBOARD_CODE.SHOT: {
-      model.shot();
+      tank.shot();
       break;
     }
   }

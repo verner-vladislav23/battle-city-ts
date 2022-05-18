@@ -1,6 +1,7 @@
 import { IMotion } from './interface';
 import { PrevPosition } from './types';
 import { Position } from '../../types/position';
+import Map from '../Map/Map';
 
 const DEFAULT_STEP = 10;
 
@@ -30,7 +31,17 @@ export default abstract class Motion implements IMotion {
   }
 
   public moveRight(): void {
-    this.move({ ...this.position, x: this.position.x + this._step });
+    const nextPosition1 = { ...this.position, x: this.position.x + this._step };
+    const nextPosition2 = {
+      x: nextPosition1.x + this.width,
+      y: nextPosition1.y + this.height,
+    };
+
+    if (Map.getMap().hasCollision(nextPosition1, nextPosition2)) {
+      console.log('collision');
+    }
+
+    this.move(nextPosition1);
   }
 
   public moveLeft(): void {
