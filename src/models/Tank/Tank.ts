@@ -21,28 +21,32 @@ export default class Tank extends Motion implements ITank {
     this._direction = INITIAL_TANK_DIRECTION;
   }
 
+  private changeDirection(direction: TankDirection) {
+    this._direction = direction;
+  }
+
+  public moveRight() {
+    super.moveRight();
+    this.changeDirection(TANK_DIRECTION.RIGHT);
+  }
+
+  public moveLeft() {
+    super.moveLeft();
+    this.changeDirection(TANK_DIRECTION.LEFT);
+  }
+
+  public moveUp() {
+    super.moveUp();
+    this.changeDirection(TANK_DIRECTION.UP);
+  }
+
+  public moveDown() {
+    super.moveDown();
+    this.changeDirection(TANK_DIRECTION.DOWN);
+  }
+
   public get direction(): TankDirection {
-    if (!this.prevPosition) {
-      return INITIAL_TANK_DIRECTION;
-    }
-
-    if (this.prevPosition.y < this.position.y) {
-      return TANK_DIRECTION.DOWN;
-    }
-
-    if (this.prevPosition.y > this.position.y) {
-      return TANK_DIRECTION.UP;
-    }
-
-    if (this.prevPosition.x < this.position.x) {
-      return TANK_DIRECTION.RIGHT;
-    }
-
-    if (this.prevPosition.x > this.position.x) {
-      return TANK_DIRECTION.LEFT;
-    }
-
-    return TANK_DIRECTION.DOWN;
+    return this._direction;
   }
 
   public shot(): Bullet {
