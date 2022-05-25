@@ -2,13 +2,14 @@ import { IMotion } from './interface';
 import { PrevPosition, CollisionHandler } from './types';
 import { Position } from '../../types/position';
 import Map from '../Map/Map';
+import { MapEntity } from '../Map/types';
 
 const DEFAULT_STEP = 10;
 
 export default abstract class Motion implements IMotion {
   public position: Position;
   public prevPosition: PrevPosition;
-  public onCollision?: CollisionHandler;
+  public onCollision?: CollisionHandler<MapEntity>;
   readonly height: number;
   readonly width: number;
   private readonly _step: number;
@@ -43,12 +44,13 @@ export default abstract class Motion implements IMotion {
     intentNextP1: Position,
     intentNextP2: Position,
   ): void {
-    if (!Map.getMap().hasCollision(intentNextP1, intentNextP2)) {
+    const collisions = Map.getMap().getCollisions(intentNextP1, intentNextP2);
+    if (collisions.length === 0) {
       this.move(intentNextP1);
       return;
     }
 
-    this.onCollision?.(intentNextP1, intentNextP2);
+    this.onCollision?.(collisions, intentNextP1, intentNextP2);
   }
 
   public moveRight(): void {
