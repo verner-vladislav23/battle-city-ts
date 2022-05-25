@@ -1,5 +1,5 @@
-import BaseLayerCtx from '../Base/BaseLayerCtx';
-import { InitialSettings } from '../../../types/layer';
+import BaseLayerCtx from 'src/dom/layers/Base/BaseLayerCtx';
+import { InitialSettings } from 'src/types/layer';
 
 const LAYER_NODE_ID = 'map-layer';
 const INITIAL_SETTINGS: InitialSettings = {

@@ -1,8 +1,8 @@
-import MotionLayerCtx from '../layers/Motion/MotionLayerCtx';
-import MapLayerCtx from '../layers/Map/MapLayerCtx';
-import { ITank } from '../../models/Tank/interface';
-import { IBullet } from '../../models/Bullet/interface';
-import { IMap } from '../../models/Map/interface';
+import MotionLayerCtx from 'src/dom/layers/Motion/MotionLayerCtx';
+import MapLayerCtx from 'src/dom/layers/Map/MapLayerCtx';
+import { ITank } from 'src/models/Tank/interface';
+import { IBullet } from 'src/models/Bullet/interface';
+import { IMap } from 'src/models/Map/interface';
 
 export class Render {
   static renderMap(map: IMap) {

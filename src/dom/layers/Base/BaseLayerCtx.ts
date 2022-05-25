@@ -1,5 +1,5 @@
-import { InitialSettings } from '../../../types/layer';
-import { LAYER_SIZE } from '../../../constants/layer';
+import { InitialSettings } from 'src/types/layer';
+import { LAYER_SIZE } from 'src/constants/layer';
 
 const CANVAS_CONTEXT_ID = '2d';
 const CANVAS_TAG_NAME = 'canvas';

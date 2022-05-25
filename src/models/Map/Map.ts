@@ -1,6 +1,6 @@
-import { Render } from '../../dom/canvas/renders';
+import { Render } from 'src/dom/canvas/renders';
 import { IMap } from './interface';
-import { Position } from '../../types/position';
+import { Position } from 'src/types/position';
 import { MapEntity, Wall } from './types';
 
 const wall: Wall = {
