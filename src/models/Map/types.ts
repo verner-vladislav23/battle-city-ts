@@ -12,7 +12,6 @@ export type Wall = {
   type: 'wall';
 } & BaseMapEntityProperties;
 
-// for example
 export type Box = {
   type: 'box';
 } & BaseMapEntityProperties;

@@ -142,6 +142,14 @@ export default class Mapper implements IMap {
     return [...Mapper.instance._mapEntities.keys()];
   }
 
+  public addEntity(mapEntity: MapEntity): void {
+    Mapper.instance._mapEntities.set(mapEntity.position, mapEntity);
+  }
+
+  public removeEntityByPosition(position: Position): void {
+    Mapper.instance._mapEntities.delete(position);
+  }
+
   public render(): void {
     Render.renderMap(this);
   }
