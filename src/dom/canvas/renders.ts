@@ -10,7 +10,7 @@ export class Render {
 
     for (const mapEntity of map.entities) {
       const { position, size } = mapEntity;
-      ctx.fillRect(position.x, position.y, size.width, size.height);
+      ctx.strokeRect(position.x, position.y, size.width, size.height);
     }
   }
 

@@ -62,11 +62,33 @@ export default class Mapper implements IMap {
       y: mapEntityP1.y + mapEntitySize.height,
     };
 
+    const entityP3 = {
+      x: entityP2.x,
+      y: entityP1.y,
+    };
+
+    const entityP4 = {
+      x: entityP1.x,
+      y: entityP2.y,
+    };
+
     return (
-      mapEntityP1.y <= entityP2.y ||
-      mapEntityP2.y >= entityP1.y ||
-      mapEntityP2.x <= entityP1.x ||
-      mapEntityP1.x >= entityP2.x
+      (entityP1.y <= mapEntityP2.y &&
+        entityP1.y >= mapEntityP1.y &&
+        entityP1.x >= mapEntityP1.x &&
+        entityP1.x <= mapEntityP2.x) ||
+      (entityP2.y <= mapEntityP2.y &&
+        entityP2.y >= mapEntityP1.y &&
+        entityP2.x >= mapEntityP1.x &&
+        entityP2.x <= mapEntityP2.x) ||
+      (entityP3.y <= mapEntityP2.y &&
+        entityP3.y >= mapEntityP1.y &&
+        entityP3.x >= mapEntityP1.x &&
+        entityP3.x <= mapEntityP2.x) ||
+      (entityP4.y <= mapEntityP2.y &&
+        entityP4.y >= mapEntityP1.y &&
+        entityP4.x >= mapEntityP1.x &&
+        entityP4.x <= mapEntityP2.x)
     );
   }
 
