@@ -1,7 +1,7 @@
 import { Render } from '../../dom/canvas/renders';
 import { IMap } from './interface';
 import { Position } from '../../types/position';
-import { MapEntity, MapKey, Wall } from './types';
+import { MapEntity, Wall } from './types';
 
 const wall: Wall = {
   type: 'wall',
@@ -13,10 +13,10 @@ const wall: Wall = {
 
 export default class Mapper implements IMap {
   private static instance: Mapper;
-  private readonly _mapEntities: Map<MapKey, MapEntity>;
+  private readonly _mapEntities: Map<Position, MapEntity>;
 
   private constructor() {
-    this._mapEntities = new Map<MapKey, MapEntity>();
+    this._mapEntities = new Map<Position, MapEntity>();
     this.generateMap();
   }
 
@@ -29,7 +29,7 @@ export default class Mapper implements IMap {
   }
 
   private generateMap(): void {
-    for (let y = 0; y < 400; y += 50) {
+    for (let y = 200; y < 400; y += 50) {
       const position = { x: 100, y };
       const wallWithPosition: Wall = {
         ...wall,
@@ -38,12 +38,15 @@ export default class Mapper implements IMap {
 
       this._mapEntities.set(position, wallWithPosition);
     }
-  }
+    for (let x = 150; x < 250; x += 50) {
+      const position = { x, y: 300 };
+      const wallWithPosition: Wall = {
+        ...wall,
+        position,
+      };
 
-  private filterMapPositions(
-    positionFilterFn: (p: Position) => boolean,
-  ): Array<Position> {
-    return [...this.positions].filter(positionFilterFn);
+      this._mapEntities.set(position, wallWithPosition);
+    }
   }
 
   private isIntersectionWithMapEntity(
@@ -60,40 +63,61 @@ export default class Mapper implements IMap {
     };
 
     return (
-      mapEntityP1.y < entityP2.y ||
-      mapEntityP2.y > entityP1.y ||
-      mapEntityP2.x < entityP1.x ||
-      mapEntityP1.x > entityP2.x
+      mapEntityP1.y <= entityP2.y ||
+      mapEntityP2.y >= entityP1.y ||
+      mapEntityP2.x <= entityP1.x ||
+      mapEntityP1.x >= entityP2.x
     );
   }
 
-  public hasCollision(p1: Position, p2: Position): boolean {
+  public getCollisions(p1: Position, p2: Position): Array<MapEntity> {
     const yDelta = wall.size.height;
     const yStart = p1.y - yDelta;
     const yFinish = p1.y + yDelta;
 
-    const xDelta = p2.x - p1.x;
+    const xDelta = wall.size.width;
     const xStart = p1.x - xDelta;
     const xFinish = p1.x + xDelta;
 
-    return this.filterMapPositions(position => {
-      return (
-        position.y > yStart &&
-        position.y < yFinish &&
-        position.x > xStart &&
-        position.x < xFinish
-      );
-    }).some(mapEntityPosition =>
-      this.isIntersectionWithMapEntity(mapEntityPosition, p1, p2),
+    let collectionPositionsByY: Array<never | Position> = [];
+    for (let y = yStart; y < yFinish; y++) {
+      const testPositionY = this.positions.filter(p => p.y === y);
+      if (testPositionY) {
+        collectionPositionsByY = [...collectionPositionsByY, ...testPositionY];
+      }
+    }
+
+    let collectionPositionsByX: Array<never | Position> = [];
+    for (let x = xStart; x < xFinish; x++) {
+      const testPositionX = collectionPositionsByY.filter(p => p.x === x);
+      if (testPositionX.length !== 0) {
+        collectionPositionsByX = [...collectionPositionsByX, ...testPositionX];
+      }
+    }
+
+    if (collectionPositionsByX.length === 0) {
+      return [];
+    }
+
+    const intersectedPositions = collectionPositionsByX.filter(
+      existedMapPosition =>
+        this.isIntersectionWithMapEntity(existedMapPosition, p1, p2),
     );
+    return intersectedPositions.map(position =>
+      this.getMapEntityByPosition(position),
+    ) as MapEntity[];
   }
 
   public get entities(): IterableIterator<MapEntity> {
     return this._mapEntities.values();
   }
 
-  public get positions(): IterableIterator<MapKey> {
-    return this._mapEntities.keys();
+  public getMapEntityByPosition(position: Position): MapEntity | undefined {
+    return Mapper.instance._mapEntities.get(position);
+  }
+
+  public get positions(): Array<Position> {
+    return [...Mapper.instance._mapEntities.keys()];
   }
 
   public render(): void {

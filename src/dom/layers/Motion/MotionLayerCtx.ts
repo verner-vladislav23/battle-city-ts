@@ -20,7 +20,7 @@ export default class MotionLayerCtx extends BaseLayerCtx {
 
   private listenKeyboard(): void {
     const map = Map.getMap();
-    const tank = new Tank({ x: 10, y: 10 });
+    const tank = new Tank({ x: 100, y: 460 });
 
     tank.render();
     map.render();
