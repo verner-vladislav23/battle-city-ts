@@ -2,6 +2,8 @@ import { Render } from '../../dom/canvas/renders';
 import { IMap } from './interface';
 import { Position } from '../../types/position';
 import { MapEntity, Wall } from './types';
+import WallMapEntity from '../WallMapEntity/WallMapEntity';
+import { MapModel, MapEntityType } from '../MapEntity/interface';
 
 const wall: Wall = {
   type: 'wall',
@@ -17,7 +19,6 @@ export default class Mapper implements IMap {
 
   private constructor() {
     this._mapEntities = new Map<Position, MapEntity>();
-    this.generateMap();
   }
 
   static getMap(): Mapper {
@@ -28,25 +29,9 @@ export default class Mapper implements IMap {
     return this.instance;
   }
 
-  private generateMap(): void {
-    for (let y = 200; y < 400; y += 50) {
-      const position = { x: 100, y };
-      const wallWithPosition: Wall = {
-        ...wall,
-        position,
-      };
-
-      this._mapEntities.set(position, wallWithPosition);
-    }
-    for (let x = 150; x < 250; x += 50) {
-      const position = { x, y: 300 };
-      const wallWithPosition: Wall = {
-        ...wall,
-        position,
-      };
-
-      this._mapEntities.set(position, wallWithPosition);
-    }
+  public generateMap(): void {
+    const position = { x: 100, y: 100 };
+    new WallMapEntity(position).create();
   }
 
   private isIntersectionWithMapEntity(
@@ -54,7 +39,7 @@ export default class Mapper implements IMap {
     entityP1: Position,
     entityP2: Position,
   ): boolean {
-    const mapEntity = this._mapEntities.get(mapEntityPosition) as MapEntity;
+    const mapEntity = this._mapEntities.get(mapEntityPosition) as MapModel<MapEntityType>;
     const { position: mapEntityP1, size: mapEntitySize } = mapEntity;
 
     const mapEntityP2 = {

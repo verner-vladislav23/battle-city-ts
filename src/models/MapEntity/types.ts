@@ -8,21 +8,12 @@ type BaseMapEntityProperties = {
   size: Size;
 };
 
-type Wall = {
+export type WallMapEntityType = {
   type: 'wall';
-  destructible: true,
-  surmountable: false,
 } & BaseMapEntityProperties;
 
-export type Box = {
+export type BoxMapEntityType = {
   type: 'box';
 } & BaseMapEntityProperties;
 
-export type MapEntityType = Wall | Box;
-
-export interface IMapEntity {
-  create: () => void;
-  destroy: () => void;
-}
-
-export type MapModel<TEntity extends MapEntityType> = TEntity & IMapEntity;
+export type MapEntityType = WallMapEntityType | BoxMapEntityType

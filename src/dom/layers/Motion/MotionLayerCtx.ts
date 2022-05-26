@@ -22,8 +22,10 @@ export default class MotionLayerCtx extends BaseLayerCtx {
     const map = Map.getMap();
     const tank = new Tank({ x: 100, y: 460 });
 
-    tank.render();
+    map.generateMap();
     map.render();
+
+    tank.render();
 
     this.node.addEventListener('keydown', event => keyDownEvent(event, tank));
   }
