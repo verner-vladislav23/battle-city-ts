@@ -3,15 +3,27 @@ import MapLayerCtx from '../layers/Map/MapLayerCtx';
 import { ITank } from '../../models/Tank/interface';
 import { IBullet } from '../../models/Bullet/interface';
 import { IMap } from '../../models/Map/interface';
+import { WallMapEntityType } from '../../models/MapEntity/types';
 
 export class Render {
   static renderMap(map: IMap) {
+    for (const mapEntity of map.entities) {
+      if (mapEntity.type === 'wall') {
+        Render.renderWall(mapEntity);
+      }
+    }
+  }
+
+  static renderWall(wall: WallMapEntityType) {
     const ctx = MapLayerCtx.ctx;
 
-    for (const mapEntity of map.entities) {
-      const { position, size } = mapEntity;
-      ctx.strokeRect(position.x, position.y, size.width, size.height);
-    }
+    ctx.fillRect(wall.position.x, wall.position.y, wall.size.width, wall.size.height);
+  }
+
+  static clearWall(wall: WallMapEntityType) {
+    const ctx = MapLayerCtx.ctx;
+
+    ctx.clearRect(wall.position.x, wall.position.y, wall.size.width, wall.size.height)
   }
 
   static renderTank(tank: ITank) {
