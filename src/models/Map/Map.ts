@@ -30,8 +30,24 @@ export default class Mapper implements IMap {
   }
 
   public generateMap(): void {
-    const position = { x: 100, y: 100 };
+    const position = { x: 100, y: 450 };
     new WallMapEntity(position).create();
+  }
+
+  /**
+   * Detect intersection two ractangles.
+   * @param {Position} r1P1 top-left position of r1 rectangle.
+   * @param {Position} r1P2 bottom-right position of r1 rectangle.
+   * @param {Position} r2P1 top-left position of r2 rectangle.
+   * @param {Position} r2P2 bottom-right position of r2 rectangle.
+   */
+  private isIntersectionRectangles(r1P1: Position, r1P2: Position, r2P1: Position, r2P2: Position): boolean {
+    const leftX = Math.max(r1P1.x, r2P1.x);
+    const rightX = Math.min(r1P2.x, r2P2.x);
+    const topY = Math.max(r1P1.y, r2P1.y);
+    const bottomY = Math.min(r1P2.y, r2P2.y);
+
+    return leftX < rightX && topY < bottomY
   }
 
   private isIntersectionWithMapEntity(
@@ -45,36 +61,9 @@ export default class Mapper implements IMap {
     const mapEntityP2 = {
       x: mapEntityP1.x + mapEntitySize.width,
       y: mapEntityP1.y + mapEntitySize.height,
-    };
+    }
 
-    const entityP3 = {
-      x: entityP2.x,
-      y: entityP1.y,
-    };
-
-    const entityP4 = {
-      x: entityP1.x,
-      y: entityP2.y,
-    };
-
-    return (
-      (entityP1.y < mapEntityP2.y &&
-        entityP1.y >= mapEntityP1.y &&
-        entityP1.x >= mapEntityP1.x &&
-        entityP1.x <= mapEntityP2.x) ||
-      (entityP2.y < mapEntityP2.y &&
-        entityP2.y >= mapEntityP1.y &&
-        entityP2.x >= mapEntityP1.x &&
-        entityP2.x <= mapEntityP2.x) ||
-      (entityP3.y < mapEntityP2.y &&
-        entityP3.y >= mapEntityP1.y &&
-        entityP3.x >= mapEntityP1.x &&
-        entityP3.x <= mapEntityP2.x) ||
-      (entityP4.y < mapEntityP2.y &&
-        entityP4.y >= mapEntityP1.y &&
-        entityP4.x >= mapEntityP1.x &&
-        entityP4.x <= mapEntityP2.x)
-    );
+    return this.isIntersectionRectangles(mapEntityP1, mapEntityP2, entityP1, entityP2);
   }
 
   public getCollisions(p1: Position, p2: Position): Array<MapEntity> {
@@ -86,7 +75,7 @@ export default class Mapper implements IMap {
     const xStart = p1.x - xDelta;
     const xFinish = p1.x + xDelta;
 
-    let collectionPositionsByY: Array<never | Position> = [];
+    let collectionPositionsByY: Array<Position | never> = [];
     for (let y = yStart; y < yFinish; y++) {
       const testPositionY = this.positions.filter(p => p.y === y);
       if (testPositionY) {
@@ -94,7 +83,7 @@ export default class Mapper implements IMap {
       }
     }
 
-    let collectionPositionsByX: Array<never | Position> = [];
+    let collectionPositionsByX: Array<Position | never> = [];
     for (let x = xStart; x < xFinish; x++) {
       const testPositionX = collectionPositionsByY.filter(p => p.x === x);
       if (testPositionX.length !== 0) {
