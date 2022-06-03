@@ -9,11 +9,11 @@ type BaseMapEntityProperties = {
 };
 
 export type WallMapEntityType = {
-  type: 'wall';
+  readonly type: 'wall';
 } & BaseMapEntityProperties;
 
 export type BoxMapEntityType = {
-  type: 'box';
+  readonly type: 'box';
 } & BaseMapEntityProperties;
 
 export type MapEntityType = WallMapEntityType | BoxMapEntityType;

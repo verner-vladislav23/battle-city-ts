@@ -8,9 +8,7 @@ import { WallMapEntityType } from '../../models/MapEntity/types';
 export class Render {
   static renderMap(map: IMap) {
     for (const mapEntity of map.entities) {
-      if (mapEntity.type === 'wall') {
-        Render.renderWall(mapEntity);
-      }
+      mapEntity.render();
     }
   }
 

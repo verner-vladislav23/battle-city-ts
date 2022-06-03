@@ -133,7 +133,7 @@ export default class Mapper implements IMap {
     return mapEntity;
   }
 
-  public removeEntity(mapEntity: MapEntityType): void {
+  public removeEntity(mapEntity: MapEntityType | IMapEntity): void {
     Mapper.instance._mapEntities.delete(mapEntity.position);
   }
 
