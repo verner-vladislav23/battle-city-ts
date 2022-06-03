@@ -41,13 +41,18 @@ export default class Mapper implements IMap {
    * @param {Position} r2P1 top-left position of r2 rectangle.
    * @param {Position} r2P2 bottom-right position of r2 rectangle.
    */
-  private isIntersectionRectangles(r1P1: Position, r1P2: Position, r2P1: Position, r2P2: Position): boolean {
+  private isIntersectionRectangles(
+    r1P1: Position,
+    r1P2: Position,
+    r2P1: Position,
+    r2P2: Position,
+  ): boolean {
     const leftX = Math.max(r1P1.x, r2P1.x);
     const rightX = Math.min(r1P2.x, r2P2.x);
     const topY = Math.max(r1P1.y, r2P1.y);
     const bottomY = Math.min(r1P2.y, r2P2.y);
 
-    return leftX < rightX && topY < bottomY
+    return leftX < rightX && topY < bottomY;
   }
 
   private isIntersectionWithMapEntity(
@@ -61,9 +66,14 @@ export default class Mapper implements IMap {
     const mapEntityP2 = {
       x: mapEntityP1.x + mapEntitySize.width,
       y: mapEntityP1.y + mapEntitySize.height,
-    }
+    };
 
-    return this.isIntersectionRectangles(mapEntityP1, mapEntityP2, entityP1, entityP2);
+    return this.isIntersectionRectangles(
+      mapEntityP1,
+      mapEntityP2,
+      entityP1,
+      entityP2,
+    );
   }
 
   public getCollisions(p1: Position, p2: Position): Array<IMapEntity> {

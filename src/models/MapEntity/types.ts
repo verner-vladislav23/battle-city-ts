@@ -16,4 +16,4 @@ export type BoxMapEntityType = {
   type: 'box';
 } & BaseMapEntityProperties;
 
-export type MapEntityType = WallMapEntityType | BoxMapEntityType
+export type MapEntityType = WallMapEntityType | BoxMapEntityType;

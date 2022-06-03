@@ -17,13 +17,23 @@ export class Render {
   static renderWall(wall: WallMapEntityType) {
     const ctx = MapLayerCtx.ctx;
 
-    ctx.fillRect(wall.position.x, wall.position.y, wall.size.width, wall.size.height);
+    ctx.fillRect(
+      wall.position.x,
+      wall.position.y,
+      wall.size.width,
+      wall.size.height,
+    );
   }
 
   static clearWall(wall: WallMapEntityType) {
     const ctx = MapLayerCtx.ctx;
 
-    ctx.clearRect(wall.position.x, wall.position.y, wall.size.width, wall.size.height)
+    ctx.clearRect(
+      wall.position.x,
+      wall.position.y,
+      wall.size.width,
+      wall.size.height,
+    );
   }
 
   static renderTank(tank: ITank) {

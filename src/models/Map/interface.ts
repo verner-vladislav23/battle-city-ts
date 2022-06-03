@@ -7,7 +7,7 @@ export interface IMap {
   generateMap();
   render(): void;
   getCollisions(p1: Position, p2: Position): Array<MapEntityType>;
-  getMapEntityByPosition(position: Position): MapEntityType | undefined
+  getMapEntityByPosition(position: Position): MapEntityType | undefined;
   addEntity(mapEntity: MapEntityType): MapEntityType;
-  removeEntity(mapEntity: MapEntityType): void
+  removeEntity(mapEntity: MapEntityType): void;
 }

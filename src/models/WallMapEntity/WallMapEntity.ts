@@ -21,19 +21,18 @@ export default class WallMapEntity extends MapEntity<WallMapEntityType> {
       destructible: true,
       surmountable: false,
       size: { width: 10, height: 10 },
-    }
+    };
   }
 
   static create(position: Position) {
     const { width, height } = WallMapEntity.getEntityProps.size;
 
-    for (let y = position.y; y < position.y + 40; y+= height) {
-      for (let x = position.x; x < position.x + 40; x+= width) {
+    for (let y = position.y; y < position.y + 40; y += height) {
+      for (let x = position.x; x < position.x + 40; x += width) {
         new WallMapEntity({ x, y }).create();
       }
     }
   }
-
 
   render(): void {
     Render.renderWall(this._entity);
