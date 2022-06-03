@@ -1,7 +1,7 @@
-import { Render } from '../../dom/canvas/renders';
-import MapEntity from '../MapEntity/MapEntity';
-import { WallMapEntityType } from '../MapEntity/types';
-import { Position } from '../../types/position';
+import { Render } from '../../../../dom/canvas/renders';
+import MapEntity from '../../MapEntity';
+import { WallMapEntityType } from '../../types';
+import { Position } from '../../../../types/position';
 
 export default class WallMapEntity extends MapEntity<WallMapEntityType> {
   constructor(position: Position) {

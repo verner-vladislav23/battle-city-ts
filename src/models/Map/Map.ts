@@ -3,7 +3,8 @@ import { IMap } from './interface';
 import { Position } from '../../types/position';
 import { IMapEntity } from '../MapEntity/interface';
 import { MapEntityType, WallMapEntityType } from '../MapEntity/types';
-import WallMapEntity from '../WallMapEntity/WallMapEntity';
+import WallMapEntity from '../MapEntity/entities/WallMapEntity/WallMapEntity';
+import BoxMapEntity from '../MapEntity/entities/BoxMapEntity/BoxMapEntity';
 
 const wall: WallMapEntityType = {
   type: 'wall',
@@ -30,8 +31,27 @@ export default class Mapper implements IMap {
   }
 
   public generateMap(): void {
-    const startPosition = { x: 100, y: 300 };
-    WallMapEntity.create(startPosition);
+    for (let y = 40; y < 200; y+= 40) {
+      const wallPosition = { x: 50, y };
+      WallMapEntity.create(wallPosition);
+    }
+    for (let y = 40; y < 200; y+= 40) {
+      const wallPosition = { x: 200, y };
+      WallMapEntity.create(wallPosition);
+    }
+
+    const boxPosition = { x: 150, y: 220 };
+    BoxMapEntity.create(boxPosition);
+
+    for (let y = 250; y < 400; y+= 40) {
+      const wallPosition = { x: 50, y };
+      WallMapEntity.create(wallPosition);
+    }
+
+    for (let y = 250; y < 400; y+= 40) {
+      const wallPosition = { x: 200, y };
+      WallMapEntity.create(wallPosition);
+    }
   }
 
   /**

@@ -4,7 +4,7 @@ import { Render } from '../../dom/canvas/renders';
 import { IBullet } from './interface';
 import { TANK_DIRECTION, TANK_HEIGHT, TANK_WIDTH } from '../Tank/constants';
 import { TankDirection } from '../Tank/types';
-import { BULLET_STEP, BULLET_WIDTH, BULLET_HEIGHT } from './constants';
+import { BULLET_STEP, BULLET_WIDTH, BULLET_HEIGHT, BULLET_MAX_COUNT_UPDATES_POSITION } from './constants';
 
 export default class Bullet extends Motion implements IBullet {
   private readonly _intervalId: number;
@@ -66,7 +66,7 @@ export default class Bullet extends Motion implements IBullet {
   }
 
   private updatePositionByTankDirection(tankDirection: TankDirection): void {
-    if (this._tick > 500) {
+    if (this._tick > BULLET_MAX_COUNT_UPDATES_POSITION) {
       this.destroy();
       return;
     }

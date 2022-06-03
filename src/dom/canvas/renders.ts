@@ -3,11 +3,12 @@ import MapLayerCtx from '../layers/Map/MapLayerCtx';
 import { ITank } from '../../models/Tank/interface';
 import { IBullet } from '../../models/Bullet/interface';
 import { IMap } from '../../models/Map/interface';
-import { WallMapEntityType } from '../../models/MapEntity/types';
+import { BoxMapEntityType, WallMapEntityType } from '../../models/MapEntity/types';
 
 export class Render {
   static renderMap(map: IMap) {
     for (const mapEntity of map.entities) {
+      console.log(mapEntity.type);
       mapEntity.render();
     }
   }
@@ -15,6 +16,7 @@ export class Render {
   static renderWall(wall: WallMapEntityType) {
     const ctx = MapLayerCtx.ctx;
 
+    ctx.fillStyle = 'black';
     ctx.fillRect(
       wall.position.x,
       wall.position.y,
@@ -34,9 +36,33 @@ export class Render {
     );
   }
 
+  static renderBox(box: BoxMapEntityType) {
+    const ctx = MapLayerCtx.ctx;
+
+    ctx.fillStyle = 'grey';
+    ctx.fillRect(
+      box.position.x,
+      box.position.y,
+      box.size.width,
+      box.size.height,
+    );
+  }
+
+  static clearBox(box: BoxMapEntityType) {
+    const ctx = MapLayerCtx.ctx;
+
+    ctx.clearRect(
+      box.position.x,
+      box.position.y,
+      box.size.width,
+      box.size.height,
+    );
+  }
+
   static renderTank(tank: ITank) {
     const ctx = MotionLayerCtx.ctx;
 
+    ctx.fillStyle = 'green';
     if (tank.prevPosition) {
       ctx.clearRect(
         tank.prevPosition.x,
