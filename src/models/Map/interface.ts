@@ -1,5 +1,13 @@
-import { MapEntity } from './types';
+import { Position } from '../../types/position';
+import { MapEntityType } from '../MapEntity/types';
 
 export interface IMap {
-  entities: IterableIterator<MapEntity>;
+  positions: Array<Position>;
+  entities: IterableIterator<MapEntityType>;
+  generateMap();
+  render(): void;
+  getCollisions(p1: Position, p2: Position): Array<MapEntityType>;
+  getMapEntityByPosition(position: Position): MapEntityType | undefined;
+  addEntity(mapEntity: MapEntityType): MapEntityType;
+  removeEntity(mapEntity: MapEntityType): void;
 }

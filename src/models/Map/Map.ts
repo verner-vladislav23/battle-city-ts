@@ -1,9 +1,11 @@
-import { Render } from 'src/dom/canvas/renders';
+import { Render } from '../../dom/canvas/renders';
 import { IMap } from './interface';
-import { Position } from 'src/types/position';
-import { MapEntity, Wall } from './types';
+import { Position } from '../../types/position';
+import { IMapEntity } from '../MapEntity/interface';
+import { MapEntityType, WallMapEntityType } from '../MapEntity/types';
+import WallMapEntity from '../WallMapEntity/WallMapEntity';
 
-const wall: Wall = {
+const wall: WallMapEntityType = {
   type: 'wall',
   destructible: false,
   surmountable: false,
@@ -13,11 +15,10 @@ const wall: Wall = {
 
 export default class Mapper implements IMap {
   private static instance: Mapper;
-  private readonly _mapEntities: Map<Position, MapEntity>;
+  private readonly _mapEntities: Map<Position, IMapEntity>;
 
   private constructor() {
-    this._mapEntities = new Map<Position, MapEntity>();
-    this.generateMap();
+    this._mapEntities = new Map<Position, IMapEntity>();
   }
 
   static getMap(): Mapper {
@@ -28,25 +29,30 @@ export default class Mapper implements IMap {
     return this.instance;
   }
 
-  private generateMap(): void {
-    for (let y = 200; y < 400; y += 50) {
-      const position = { x: 100, y };
-      const wallWithPosition: Wall = {
-        ...wall,
-        position,
-      };
+  public generateMap(): void {
+    const startPosition = { x: 100, y: 300 };
+    WallMapEntity.create(startPosition);
+  }
 
-      this._mapEntities.set(position, wallWithPosition);
-    }
-    for (let x = 150; x < 250; x += 50) {
-      const position = { x, y: 300 };
-      const wallWithPosition: Wall = {
-        ...wall,
-        position,
-      };
+  /**
+   * Detect intersection two ractangles.
+   * @param {Position} r1P1 top-left position of r1 rectangle.
+   * @param {Position} r1P2 bottom-right position of r1 rectangle.
+   * @param {Position} r2P1 top-left position of r2 rectangle.
+   * @param {Position} r2P2 bottom-right position of r2 rectangle.
+   */
+  private isIntersectionRectangles(
+    r1P1: Position,
+    r1P2: Position,
+    r2P1: Position,
+    r2P2: Position,
+  ): boolean {
+    const leftX = Math.max(r1P1.x, r2P1.x);
+    const rightX = Math.min(r1P2.x, r2P2.x);
+    const topY = Math.max(r1P1.y, r2P1.y);
+    const bottomY = Math.min(r1P2.y, r2P2.y);
 
-      this._mapEntities.set(position, wallWithPosition);
-    }
+    return leftX < rightX && topY < bottomY;
   }
 
   private isIntersectionWithMapEntity(
@@ -54,7 +60,7 @@ export default class Mapper implements IMap {
     entityP1: Position,
     entityP2: Position,
   ): boolean {
-    const mapEntity = this._mapEntities.get(mapEntityPosition) as MapEntity;
+    const mapEntity = this._mapEntities.get(mapEntityPosition) as IMapEntity;
     const { position: mapEntityP1, size: mapEntitySize } = mapEntity;
 
     const mapEntityP2 = {
@@ -62,37 +68,15 @@ export default class Mapper implements IMap {
       y: mapEntityP1.y + mapEntitySize.height,
     };
 
-    const entityP3 = {
-      x: entityP2.x,
-      y: entityP1.y,
-    };
-
-    const entityP4 = {
-      x: entityP1.x,
-      y: entityP2.y,
-    };
-
-    return (
-      (entityP1.y < mapEntityP2.y &&
-        entityP1.y >= mapEntityP1.y &&
-        entityP1.x >= mapEntityP1.x &&
-        entityP1.x <= mapEntityP2.x) ||
-      (entityP2.y < mapEntityP2.y &&
-        entityP2.y >= mapEntityP1.y &&
-        entityP2.x >= mapEntityP1.x &&
-        entityP2.x <= mapEntityP2.x) ||
-      (entityP3.y < mapEntityP2.y &&
-        entityP3.y >= mapEntityP1.y &&
-        entityP3.x >= mapEntityP1.x &&
-        entityP3.x <= mapEntityP2.x) ||
-      (entityP4.y < mapEntityP2.y &&
-        entityP4.y >= mapEntityP1.y &&
-        entityP4.x >= mapEntityP1.x &&
-        entityP4.x <= mapEntityP2.x)
+    return this.isIntersectionRectangles(
+      mapEntityP1,
+      mapEntityP2,
+      entityP1,
+      entityP2,
     );
   }
 
-  public getCollisions(p1: Position, p2: Position): Array<MapEntity> {
+  public getCollisions(p1: Position, p2: Position): Array<IMapEntity> {
     const yDelta = wall.size.height;
     const yStart = p1.y - yDelta;
     const yFinish = p1.y + yDelta;
@@ -101,7 +85,7 @@ export default class Mapper implements IMap {
     const xStart = p1.x - xDelta;
     const xFinish = p1.x + xDelta;
 
-    let collectionPositionsByY: Array<never | Position> = [];
+    let collectionPositionsByY: Array<Position | never> = [];
     for (let y = yStart; y < yFinish; y++) {
       const testPositionY = this.positions.filter(p => p.y === y);
       if (testPositionY) {
@@ -109,7 +93,7 @@ export default class Mapper implements IMap {
       }
     }
 
-    let collectionPositionsByX: Array<never | Position> = [];
+    let collectionPositionsByX: Array<Position | never> = [];
     for (let x = xStart; x < xFinish; x++) {
       const testPositionX = collectionPositionsByY.filter(p => p.x === x);
       if (testPositionX.length !== 0) {
@@ -125,16 +109,17 @@ export default class Mapper implements IMap {
       existedMapPosition =>
         this.isIntersectionWithMapEntity(existedMapPosition, p1, p2),
     );
+
     return intersectedPositions.map(position =>
       this.getMapEntityByPosition(position),
-    ) as MapEntity[];
+    ) as IMapEntity[];
   }
 
-  public get entities(): IterableIterator<MapEntity> {
+  public get entities(): IterableIterator<IMapEntity> {
     return this._mapEntities.values();
   }
 
-  public getMapEntityByPosition(position: Position): MapEntity | undefined {
+  public getMapEntityByPosition(position: Position): IMapEntity | undefined {
     return Mapper.instance._mapEntities.get(position);
   }
 
@@ -142,12 +127,14 @@ export default class Mapper implements IMap {
     return [...Mapper.instance._mapEntities.keys()];
   }
 
-  public addEntity(mapEntity: MapEntity): void {
+  public addEntity(mapEntity: IMapEntity): IMapEntity {
     Mapper.instance._mapEntities.set(mapEntity.position, mapEntity);
+
+    return mapEntity;
   }
 
-  public removeEntityByPosition(position: Position): void {
-    Mapper.instance._mapEntities.delete(position);
+  public removeEntity(mapEntity: MapEntityType): void {
+    Mapper.instance._mapEntities.delete(mapEntity.position);
   }
 
   public render(): void {
