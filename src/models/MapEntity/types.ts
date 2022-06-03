@@ -2,10 +2,10 @@ import { Position } from '../../types/position';
 import { Size } from '../../types/size';
 
 type BaseMapEntityProperties = {
-  destructible: boolean;
-  surmountable: boolean;
-  position: Position;
-  size: Size;
+  readonly destructible: boolean;
+  readonly surmountable: boolean;
+  readonly position: Position;
+  readonly size: Size;
 };
 
 export type WallMapEntityType = {

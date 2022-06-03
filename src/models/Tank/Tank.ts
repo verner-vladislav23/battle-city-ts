@@ -53,12 +53,8 @@ export default class Tank extends Motion implements ITank {
     const bullet = new Bullet(this.position, this.direction);
 
     bullet.onCollision = (mapEntities, map) => {
-      // mapEntity.destroy()
-      console.log(console.log(mapEntities));
-      mapEntities.forEach(entity => map.removeEntityByPosition(entity.position));
       if (mapEntities[0].type === 'wall') {
-        Render.clearWall(mapEntities[0]);
-        map.removeEntityByPosition(mapEntities[0]?.position);
+        mapEntities[0].destroy();
       }
       bullet.destroy();
     };

@@ -2,14 +2,14 @@ import { IMotion } from './interface';
 import { PrevPosition, CollisionHandler } from './types';
 import { Position } from '../../types/position';
 import Map from '../Map/Map';
-import { MapEntityType } from '../MapEntity/types';
+import { IMapEntity } from '../MapEntity/interface';
 
 const DEFAULT_STEP = 10;
 
 export default abstract class Motion implements IMotion {
   public position: Position;
   public prevPosition: PrevPosition;
-  public onCollision?: CollisionHandler<MapEntityType>;
+  public onCollision?: CollisionHandler<IMapEntity>;
   readonly height: number;
   readonly width: number;
   private readonly _step: number;
