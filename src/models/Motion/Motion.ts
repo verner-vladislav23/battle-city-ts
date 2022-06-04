@@ -47,7 +47,10 @@ export default abstract class Motion implements IMotion {
     const map = Map.getMap();
     const collisions = map.getCollisions(intentNextP1, intentNextP2);
 
-    if (collisions.length === 0) {
+    if (
+      collisions.length === 0 ||
+      collisions.some(entity => entity.surmountable)
+    ) {
       this.move(intentNextP1);
       return;
     }

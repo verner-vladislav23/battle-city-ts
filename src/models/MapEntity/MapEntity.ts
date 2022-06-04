@@ -2,7 +2,9 @@ import Mapper from '../Map/Map';
 import { IMapEntity } from './interface';
 import { MapEntityType } from './types';
 
-export default abstract class MapEntity<T extends MapEntityType> implements IMapEntity {
+export default abstract class MapEntity<T extends MapEntityType>
+  implements IMapEntity
+{
   public readonly type: MapEntityType['type'];
   public readonly destructible: MapEntityType['destructible'];
   public readonly surmountable: MapEntityType['surmountable'];
@@ -21,7 +23,7 @@ export default abstract class MapEntity<T extends MapEntityType> implements IMap
 
   abstract render();
 
-  create(): MapEntityType {
+  create(): IMapEntity {
     return Mapper.getMap().addEntity(this);
   }
 

@@ -1,6 +1,6 @@
 import { Render } from '../../../../dom/canvas/renders';
 import MapEntity from '../../MapEntity';
-import { WallMapEntityType } from '../../types';
+import { WallMapEntityType, MapEntityProps } from '../../types';
 import { Position } from '../../../../types/position';
 
 export default class WallMapEntity extends MapEntity<WallMapEntityType> {
@@ -15,7 +15,7 @@ export default class WallMapEntity extends MapEntity<WallMapEntityType> {
     };
   }
 
-  static get getEntityProps(): Omit<WallMapEntityType, 'position'> {
+  static get getEntityProps(): MapEntityProps<WallMapEntityType> {
     return {
       type: 'wall',
       destructible: true,

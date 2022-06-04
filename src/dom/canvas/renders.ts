@@ -3,7 +3,12 @@ import MapLayerCtx from '../layers/Map/MapLayerCtx';
 import { ITank } from '../../models/Tank/interface';
 import { IBullet } from '../../models/Bullet/interface';
 import { IMap } from '../../models/Map/interface';
-import { BoxMapEntityType, WallMapEntityType } from '../../models/MapEntity/types';
+import {
+  BoxMapEntityType,
+  ForestMapEntityType,
+  WallMapEntityType,
+  WaterMapEntityType,
+} from '../../models/MapEntity/types';
 
 export class Render {
   static renderMap(map: IMap) {
@@ -59,10 +64,34 @@ export class Render {
     );
   }
 
+  static renderWater(water: WaterMapEntityType) {
+    const ctx = MapLayerCtx.ctx;
+
+    ctx.fillStyle = 'blue';
+    ctx.fillRect(
+      water.position.x,
+      water.position.y,
+      water.size.width,
+      water.size.height,
+    );
+  }
+
+  static renderForest(forest: ForestMapEntityType) {
+    const ctx = MapLayerCtx.ctx;
+
+    ctx.fillStyle = 'green';
+    ctx.fillRect(
+      forest.position.x,
+      forest.position.y,
+      forest.size.width,
+      forest.size.height,
+    );
+  }
+
   static renderTank(tank: ITank) {
     const ctx = MotionLayerCtx.ctx;
 
-    ctx.fillStyle = 'green';
+    ctx.fillStyle = 'orange';
     if (tank.prevPosition) {
       ctx.clearRect(
         tank.prevPosition.x,

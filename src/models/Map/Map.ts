@@ -2,17 +2,12 @@ import { Render } from '../../dom/canvas/renders';
 import { IMap } from './interface';
 import { Position } from '../../types/position';
 import { IMapEntity } from '../MapEntity/interface';
-import { MapEntityType, WallMapEntityType } from '../MapEntity/types';
+import { MapEntityType } from '../MapEntity/types';
+import { MAX_MAP_ENTITY_SIZE } from '../MapEntity/constants';
 import WallMapEntity from '../MapEntity/entities/WallMapEntity/WallMapEntity';
 import BoxMapEntity from '../MapEntity/entities/BoxMapEntity/BoxMapEntity';
-
-const wall: WallMapEntityType = {
-  type: 'wall',
-  destructible: false,
-  surmountable: false,
-  position: { x: 100, y: 200 },
-  size: { width: 50, height: 50 },
-};
+import WaterMapEntity from '../MapEntity/entities/WaterMapEntity/WaterMapEntity';
+import ForestMapEntity from '../MapEntity/entities/ForestMapEntity/ForestMapEntity';
 
 export default class Mapper implements IMap {
   private static instance: Mapper;
@@ -31,11 +26,11 @@ export default class Mapper implements IMap {
   }
 
   public generateMap(): void {
-    for (let y = 40; y < 200; y+= 40) {
+    for (let y = 40; y < 200; y += 40) {
       const wallPosition = { x: 50, y };
       WallMapEntity.create(wallPosition);
     }
-    for (let y = 40; y < 200; y+= 40) {
+    for (let y = 40; y < 200; y += 40) {
       const wallPosition = { x: 200, y };
       WallMapEntity.create(wallPosition);
     }
@@ -43,15 +38,21 @@ export default class Mapper implements IMap {
     const boxPosition = { x: 150, y: 220 };
     BoxMapEntity.create(boxPosition);
 
-    for (let y = 250; y < 400; y+= 40) {
+    for (let y = 250; y < 400; y += 40) {
       const wallPosition = { x: 50, y };
       WallMapEntity.create(wallPosition);
     }
 
-    for (let y = 250; y < 400; y+= 40) {
+    for (let y = 250; y < 400; y += 40) {
       const wallPosition = { x: 200, y };
       WallMapEntity.create(wallPosition);
     }
+
+    const waterPosition = { x: 400, y: 450 };
+    WaterMapEntity.create(waterPosition);
+
+    const forestPosition = { x: 350, y: 250 };
+    ForestMapEntity.create(forestPosition);
   }
 
   /**
@@ -97,11 +98,11 @@ export default class Mapper implements IMap {
   }
 
   public getCollisions(p1: Position, p2: Position): Array<IMapEntity> {
-    const yDelta = wall.size.height;
+    const yDelta = MAX_MAP_ENTITY_SIZE.height;
     const yStart = p1.y - yDelta;
     const yFinish = p1.y + yDelta;
 
-    const xDelta = wall.size.width;
+    const xDelta = MAX_MAP_ENTITY_SIZE.width;
     const xStart = p1.x - xDelta;
     const xFinish = p1.x + xDelta;
 

@@ -14,7 +14,7 @@ export default class BoxMapEntity extends MapEntity<BoxMapEntityType> {
       destructible: false,
       surmountable: false,
       size: { width: 40, height: 40 },
-      position: position,
+      position,
     };
   }
 
