@@ -13,7 +13,6 @@ import {
 export class Render {
   static renderMap(map: IMap) {
     for (const mapEntity of map.entities) {
-      console.log(mapEntity.type);
       mapEntity.render();
     }
   }

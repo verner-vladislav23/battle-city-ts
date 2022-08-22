@@ -8,13 +8,12 @@ import {
   BULLET_STEP,
   BULLET_WIDTH,
   BULLET_HEIGHT,
-  BULLET_MAX_COUNT_UPDATES_POSITION,
 } from './constants';
+import { LAYER_SIZE } from '../../constants/layer';
 
 export default class Bullet extends Motion implements IBullet {
-  private readonly _intervalId: number;
-  private _tick: number;
   private _destructed: boolean;
+  private animationID: number;
 
   constructor(public tankPosition: Position, tankDirection: TankDirection) {
     super(tankPosition, BULLET_HEIGHT, BULLET_WIDTH, BULLET_STEP);
@@ -23,11 +22,8 @@ export default class Bullet extends Motion implements IBullet {
       tankDirection,
     );
     this._destructed = false;
-    this._tick = 0;
-
-    this._intervalId = window.setInterval(() => {
-      this.updatePositionByTankDirection(tankDirection);
-    }, 5);
+    this.animationID = 0;
+    this.updatePositionByTankDirection(tankDirection);
   }
 
   private calculateBulletStartPosition(
@@ -64,14 +60,24 @@ export default class Bullet extends Motion implements IBullet {
     return tankPosition;
   }
 
-  public destroy(): void {
-    this._destructed = true;
-    window.clearInterval(this._intervalId);
-    this.clear();
+  private isOutOfMapByTankDirection(tankDirection: TankDirection): boolean {
+    if (tankDirection === TANK_DIRECTION.UP || tankDirection === TANK_DIRECTION.DOWN) {
+     if (this.position.y > LAYER_SIZE.height || this.position.y < 0) {
+       return true;
+     }
+    }
+
+    if (tankDirection === TANK_DIRECTION.LEFT || tankDirection === TANK_DIRECTION.RIGHT) {
+      if (this.position.x > LAYER_SIZE.width || this.position.x < 0) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   private updatePositionByTankDirection(tankDirection: TankDirection): void {
-    if (this._tick > BULLET_MAX_COUNT_UPDATES_POSITION) {
+    if (this.isOutOfMapByTankDirection(tankDirection)) {
       this.destroy();
       return;
     }
@@ -97,8 +103,14 @@ export default class Bullet extends Motion implements IBullet {
 
     if (!this._destructed) {
       this.render();
-      this._tick++;
+      this.animationID = window.requestAnimationFrame(() => this.updatePositionByTankDirection(tankDirection));
     }
+  }
+
+  public destroy(): void {
+    this._destructed = true;
+    this.clear();
+    window.cancelAnimationFrame(this.animationID);
   }
 
   render() {
