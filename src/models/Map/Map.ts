@@ -1,4 +1,4 @@
-import { Render } from '../../dom/canvas/renders';
+import Render from 'src/dom/canvas/renders';
 import { IMap } from './interface';
 import { Position } from '../../types/position';
 import { IMapEntity } from '../MapEntity/interface';
@@ -107,7 +107,9 @@ export default class Mapper implements IMap {
     const xStart = p1.x - X_DELTA;
     const xFinish = p1.x + X_DELTA;
 
-    const filteredByX = this.positions.filter(me => me.x > xStart && me.x < xFinish);
+    const filteredByX = this.positions.filter(
+      me => me.x > xStart && me.x < xFinish,
+    );
 
     if (filteredByX.length === 0) {
       return [];
@@ -116,7 +118,9 @@ export default class Mapper implements IMap {
     let collectionPositionsByY: Array<Position | never> = [];
 
     for (let y = yStart; y < yFinish; y++) {
-      const testPositionY = filteredByX.filter(mapEntityPosition => mapEntityPosition.y === y);
+      const testPositionY = filteredByX.filter(
+        mapEntityPosition => mapEntityPosition.y === y,
+      );
 
       if (testPositionY.length !== 0) {
         collectionPositionsByY = [...collectionPositionsByY, ...testPositionY];

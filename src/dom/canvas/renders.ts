@@ -10,7 +10,7 @@ import {
   WaterMapEntityType,
 } from '../../models/MapEntity/types';
 
-export class Render {
+export default class Render {
   static renderMap(map: IMap) {
     for (const mapEntity of map.entities) {
       mapEntity.render();
@@ -106,12 +106,7 @@ export class Render {
   static clearTank(tank: ITank) {
     const ctx = MotionLayerCtx.ctx;
 
-    ctx.clearRect(
-      tank.position.x,
-      tank.position.y,
-      tank.width,
-      tank.height,
-    )
+    ctx.clearRect(tank.position.x, tank.position.y, tank.width, tank.height);
   }
 
   static renderBullet(bullet: IBullet) {

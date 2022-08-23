@@ -1,5 +1,6 @@
-import { Position } from '../../types/position';
-import { Render } from '../../dom/canvas/renders';
+import { Position } from 'src/types/position';
+import Render from 'src/dom/canvas/renders';
+import { delay } from 'src/utils';
 
 import { ITank } from './interface';
 import Motion from '../Motion/Motion';
@@ -10,6 +11,7 @@ import {
   TANK_STEP,
   TANK_DIRECTION,
   INITIAL_TANK_DIRECTION,
+  BULLET_GENERATE_TIMOUT,
 } from './constants';
 import { TankDirection } from './types';
 
@@ -26,36 +28,36 @@ export default class Tank extends Motion implements ITank {
   private changeDirection(direction: TankDirection) {
     this._direction = direction;
   }
-  
+
   private createBullet(): Bullet | null {
     if (!this._canCreateBullet) {
       return null;
     }
 
-    setTimeout(() => {
+    void delay(BULLET_GENERATE_TIMOUT).then(() => {
       this._canCreateBullet = true;
-    }, 1000);
+    });
 
     this._canCreateBullet = false;
-    return new Bullet(this.position, this.direction)
+    return new Bullet(this.position, this.direction);
   }
 
-  public moveRight() {
+  public moveRight(): void {
     super.moveRight();
     this.changeDirection(TANK_DIRECTION.RIGHT);
   }
 
-  public moveLeft() {
+  public moveLeft(): void {
     super.moveLeft();
     this.changeDirection(TANK_DIRECTION.LEFT);
   }
 
-  public moveUp() {
+  public moveUp(): void {
     super.moveUp();
     this.changeDirection(TANK_DIRECTION.UP);
   }
 
-  public moveDown() {
+  public moveDown(): void {
     super.moveDown();
     this.changeDirection(TANK_DIRECTION.DOWN);
   }
@@ -73,7 +75,7 @@ export default class Tank extends Motion implements ITank {
           if (mapEntity.type === 'wall') {
             mapEntity.destroy();
           }
-        })
+        });
         // console.log(JSON.stringify(mapEntities, null, 2));
 
         bullet.destroy();

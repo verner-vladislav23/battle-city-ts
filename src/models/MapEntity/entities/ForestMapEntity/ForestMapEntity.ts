@@ -1,4 +1,4 @@
-import { Render } from '../../../../dom/canvas/renders';
+import Render from 'src/dom/canvas/renders';
 import MapEntity from '../../MapEntity';
 import { Position } from '../../../../types/position';
 import { ForestMapEntityType } from '../../types';

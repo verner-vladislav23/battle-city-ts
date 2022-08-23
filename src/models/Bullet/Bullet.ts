@@ -1,15 +1,11 @@
+import Render from 'src/dom/canvas/renders';
 import Motion from '../Motion/Motion';
 import { Position } from 'src/types/position';
-import { Render } from 'src/dom/canvas/renders';
 import MapLayerCtx from 'src/dom/layers/Map/MapLayerCtx';
 import { IBullet } from './interface';
 import { TANK_DIRECTION, TANK_HEIGHT, TANK_WIDTH } from '../Tank/constants';
 import { TankDirection } from '../Tank/types';
-import {
-  BULLET_STEP,
-  BULLET_WIDTH,
-  BULLET_HEIGHT,
-} from './constants';
+import { BULLET_STEP, BULLET_WIDTH, BULLET_HEIGHT } from './constants';
 
 export default class Bullet extends Motion implements IBullet {
   private _destructed: boolean;
@@ -62,14 +58,26 @@ export default class Bullet extends Motion implements IBullet {
   }
 
   private isOutOfMapByTankDirection(tankDirection: TankDirection): boolean {
-    if (tankDirection === TANK_DIRECTION.UP || tankDirection === TANK_DIRECTION.DOWN) {
-     if (this.position.y > MapLayerCtx.size.height || this.position.y < 0) {
-       return true;
-     }
+    if (
+      tankDirection === TANK_DIRECTION.UP ||
+      tankDirection === TANK_DIRECTION.DOWN
+    ) {
+      if (
+        this.position.y + BULLET_HEIGHT >= MapLayerCtx.size.height ||
+        this.position.y <= 0
+      ) {
+        return true;
+      }
     }
 
-    if (tankDirection === TANK_DIRECTION.LEFT || tankDirection === TANK_DIRECTION.RIGHT) {
-      if (this.position.x > MapLayerCtx.size.width || this.position.x < 0) {
+    if (
+      tankDirection === TANK_DIRECTION.LEFT ||
+      tankDirection === TANK_DIRECTION.RIGHT
+    ) {
+      if (
+        this.position.x + BULLET_WIDTH >= MapLayerCtx.size.width ||
+        this.position.x <= 0
+      ) {
         return true;
       }
     }
@@ -104,7 +112,9 @@ export default class Bullet extends Motion implements IBullet {
 
     if (!this._destructed) {
       this.render();
-      this.animationID = window.requestAnimationFrame(() => this.updatePositionByTankDirection(tankDirection));
+      this.animationID = window.requestAnimationFrame(() =>
+        this.updatePositionByTankDirection(tankDirection),
+      );
     }
   }
 

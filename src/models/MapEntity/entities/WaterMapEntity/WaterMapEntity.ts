@@ -1,7 +1,7 @@
-import { Render } from '../../../../dom/canvas/renders';
+import Render from 'src/dom/canvas/renders';
 import MapEntity from '../../MapEntity';
 import { WaterMapEntityType } from '../../types';
-import { Position } from '../../../../types/position';
+import { Position } from 'src/types/position';
 
 export default class WaterMapEntity extends MapEntity<WaterMapEntityType> {
   constructor(position: Position) {
