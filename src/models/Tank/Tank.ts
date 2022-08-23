@@ -34,7 +34,7 @@ export default class Tank extends Motion implements ITank {
 
     setTimeout(() => {
       this._canCreateBullet = true;
-    }, 200);
+    }, 1000);
 
     this._canCreateBullet = false;
     return new Bullet(this.position, this.direction)
