@@ -1,4 +1,4 @@
-import { Render } from '../../dom/canvas/renders';
+import Render from 'src/dom/canvas/renders';
 import { IMap } from './interface';
 import { Position } from '../../types/position';
 import { IMapEntity } from '../MapEntity/interface';
@@ -8,6 +8,9 @@ import WallMapEntity from '../MapEntity/entities/WallMapEntity/WallMapEntity';
 import BoxMapEntity from '../MapEntity/entities/BoxMapEntity/BoxMapEntity';
 import WaterMapEntity from '../MapEntity/entities/WaterMapEntity/WaterMapEntity';
 import ForestMapEntity from '../MapEntity/entities/ForestMapEntity/ForestMapEntity';
+
+const Y_DELTA = MAX_MAP_ENTITY_SIZE.height;
+const X_DELTA = MAX_MAP_ENTITY_SIZE.width;
 
 export default class Mapper implements IMap {
   private static instance: Mapper;
@@ -98,25 +101,43 @@ export default class Mapper implements IMap {
   }
 
   public getCollisions(p1: Position, p2: Position): Array<IMapEntity> {
-    const yDelta = MAX_MAP_ENTITY_SIZE.height;
-    const yStart = p1.y - yDelta;
-    const yFinish = p1.y + yDelta;
+    const yStart = p1.y - Y_DELTA;
+    const yFinish = p1.y + Y_DELTA;
 
-    const xDelta = MAX_MAP_ENTITY_SIZE.width;
-    const xStart = p1.x - xDelta;
-    const xFinish = p1.x + xDelta;
+    const xStart = p1.x - X_DELTA;
+    const xFinish = p1.x + X_DELTA;
+
+    const filteredByX = this.positions.filter(
+      me => me.x > xStart && me.x < xFinish,
+    );
+
+    if (filteredByX.length === 0) {
+      return [];
+    }
 
     let collectionPositionsByY: Array<Position | never> = [];
+
     for (let y = yStart; y < yFinish; y++) {
-      const testPositionY = this.positions.filter(p => p.y === y);
-      if (testPositionY) {
+      const testPositionY = filteredByX.filter(
+        mapEntityPosition => mapEntityPosition.y === y,
+      );
+
+      if (testPositionY.length !== 0) {
         collectionPositionsByY = [...collectionPositionsByY, ...testPositionY];
       }
     }
 
+    if (collectionPositionsByY.length === 0) {
+      return [];
+    }
+
     let collectionPositionsByX: Array<Position | never> = [];
+
     for (let x = xStart; x < xFinish; x++) {
-      const testPositionX = collectionPositionsByY.filter(p => p.x === x);
+      const testPositionX = collectionPositionsByY.filter(p => {
+        return p.x === x && p.y > yStart && p.y < yFinish;
+      });
+
       if (testPositionX.length !== 0) {
         collectionPositionsByX = [...collectionPositionsByX, ...testPositionX];
       }
@@ -130,6 +151,10 @@ export default class Mapper implements IMap {
       existedMapPosition =>
         this.isIntersectionWithMapEntity(existedMapPosition, p1, p2),
     );
+
+    if (intersectedPositions.length === 0) {
+      return [];
+    }
 
     return intersectedPositions.map(position =>
       this.getMapEntityByPosition(position),

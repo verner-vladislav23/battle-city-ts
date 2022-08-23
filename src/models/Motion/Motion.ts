@@ -2,6 +2,7 @@ import { IMotion } from './interface';
 import { PrevPosition, CollisionHandler } from './types';
 import { Position } from '../../types/position';
 import Map from '../Map/Map';
+import MapLayerCtx from 'src/dom/layers/Map/MapLayerCtx';
 import { IMapEntity } from '../MapEntity/interface';
 
 const DEFAULT_STEP = 10;
@@ -58,12 +59,28 @@ export default abstract class Motion implements IMotion {
     this.onCollision?.(collisions, map, intentNextP1, intentNextP2);
   }
 
+  protected isOutOfMap(
+    intentNextP1: Position,
+    intentNextP2: Position,
+  ): boolean {
+    return (
+      intentNextP1.y < 0 ||
+      intentNextP2.y > MapLayerCtx.size.height ||
+      intentNextP1.x < 0 ||
+      intentNextP2.x > MapLayerCtx.size.width
+    );
+  }
+
   public moveRight(): void {
     const intentNextPosition1 = {
       ...this.position,
       x: this.position.x + this._step,
     };
     const intentNextPosition2 = this.getNextPosition2(intentNextPosition1);
+
+    if (this.isOutOfMap(intentNextPosition1, intentNextPosition2)) {
+      return;
+    }
 
     this.handleCollision(intentNextPosition1, intentNextPosition2);
   }
@@ -75,6 +92,10 @@ export default abstract class Motion implements IMotion {
     };
     const intentNextPosition2 = this.getNextPosition2(intentNextPosition1);
 
+    if (this.isOutOfMap(intentNextPosition1, intentNextPosition2)) {
+      return;
+    }
+
     this.handleCollision(intentNextPosition1, intentNextPosition2);
   }
 
@@ -85,6 +106,10 @@ export default abstract class Motion implements IMotion {
     };
     const intentNextPosition2 = this.getNextPosition2(intentNextPosition1);
 
+    if (this.isOutOfMap(intentNextPosition1, intentNextPosition2)) {
+      return;
+    }
+
     this.handleCollision(intentNextPosition1, intentNextPosition2);
   }
 
@@ -94,6 +119,10 @@ export default abstract class Motion implements IMotion {
       y: this.position.y + this._step,
     };
     const intentNextPosition2 = this.getNextPosition2(intentNextPosition1);
+
+    if (this.isOutOfMap(intentNextPosition1, intentNextPosition2)) {
+      return;
+    }
 
     this.handleCollision(intentNextPosition1, intentNextPosition2);
   }

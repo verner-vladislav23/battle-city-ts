@@ -1,7 +1,7 @@
-import { Render } from '../../../../dom/canvas/renders';
+import Render from 'src/dom/canvas/renders';
 import MapEntity from '../../MapEntity';
 import { BoxMapEntityType } from '../../types';
-import { Position } from '../../../../types/position';
+import { Position } from 'src/types/position';
 
 export default class BoxMapEntity extends MapEntity<BoxMapEntityType> {
   constructor(position: Position) {
