@@ -103,6 +103,17 @@ export class Render {
     ctx.fillRect(tank.position.x, tank.position.y, tank.width, tank.height);
   }
 
+  static clearTank(tank: ITank) {
+    const ctx = MotionLayerCtx.ctx;
+
+    ctx.clearRect(
+      tank.position.x,
+      tank.position.y,
+      tank.width,
+      tank.height,
+    )
+  }
+
   static renderBullet(bullet: IBullet) {
     const ctx = MotionLayerCtx.ctx;
 

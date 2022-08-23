@@ -1,6 +1,7 @@
 import Motion from '../Motion/Motion';
-import { Position } from '../../types/position';
-import { Render } from '../../dom/canvas/renders';
+import { Position } from 'src/types/position';
+import { Render } from 'src/dom/canvas/renders';
+import MapLayerCtx from 'src/dom/layers/Map/MapLayerCtx';
 import { IBullet } from './interface';
 import { TANK_DIRECTION, TANK_HEIGHT, TANK_WIDTH } from '../Tank/constants';
 import { TankDirection } from '../Tank/types';
@@ -9,7 +10,6 @@ import {
   BULLET_WIDTH,
   BULLET_HEIGHT,
 } from './constants';
-import { LAYER_SIZE } from '../../constants/layer';
 
 export default class Bullet extends Motion implements IBullet {
   private _destructed: boolean;
@@ -23,6 +23,7 @@ export default class Bullet extends Motion implements IBullet {
     );
     this._destructed = false;
     this.animationID = 0;
+
     this.updatePositionByTankDirection(tankDirection);
   }
 
@@ -62,13 +63,13 @@ export default class Bullet extends Motion implements IBullet {
 
   private isOutOfMapByTankDirection(tankDirection: TankDirection): boolean {
     if (tankDirection === TANK_DIRECTION.UP || tankDirection === TANK_DIRECTION.DOWN) {
-     if (this.position.y > LAYER_SIZE.height || this.position.y < 0) {
+     if (this.position.y > MapLayerCtx.size.height || this.position.y < 0) {
        return true;
      }
     }
 
     if (tankDirection === TANK_DIRECTION.LEFT || tankDirection === TANK_DIRECTION.RIGHT) {
-      if (this.position.x > LAYER_SIZE.width || this.position.x < 0) {
+      if (this.position.x > MapLayerCtx.size.width || this.position.x < 0) {
         return true;
       }
     }

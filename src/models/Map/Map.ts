@@ -108,15 +108,26 @@ export default class Mapper implements IMap {
 
     let collectionPositionsByY: Array<Position | never> = [];
     for (let y = yStart; y < yFinish; y++) {
-      const testPositionY = this.positions.filter(p => p.y === y);
-      if (testPositionY) {
+      const testPositionY = this.positions.filter(mapEntityPosition => {
+        return mapEntityPosition.y === y &&
+            mapEntityPosition.x > xStart && mapEntityPosition.x < xFinish
+      });
+
+      if (testPositionY.length !== 0) {
         collectionPositionsByY = [...collectionPositionsByY, ...testPositionY];
       }
     }
 
+    if (collectionPositionsByY.length === 0) {
+      return [];
+    }
+
     let collectionPositionsByX: Array<Position | never> = [];
     for (let x = xStart; x < xFinish; x++) {
-      const testPositionX = collectionPositionsByY.filter(p => p.x === x);
+      const testPositionX = collectionPositionsByY.filter(p => {
+        return p.x === x && p.y > yStart && p.y < yFinish;
+      });
+
       if (testPositionX.length !== 0) {
         collectionPositionsByX = [...collectionPositionsByX, ...testPositionX];
       }
@@ -130,6 +141,10 @@ export default class Mapper implements IMap {
       existedMapPosition =>
         this.isIntersectionWithMapEntity(existedMapPosition, p1, p2),
     );
+
+    if (intersectedPositions.length === 0) {
+      return [];
+    }
 
     return intersectedPositions.map(position =>
       this.getMapEntityByPosition(position),

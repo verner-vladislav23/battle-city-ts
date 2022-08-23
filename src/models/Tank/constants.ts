@@ -1,6 +1,6 @@
 export const TANK_HEIGHT = 50;
 export const TANK_WIDTH = 50;
-export const TANK_STEP = 20;
+export const TANK_STEP = 10;
 export const TANK_DIRECTION = {
   UP: 'UP',
   RIGHT: 'RIGHT',

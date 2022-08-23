@@ -84,4 +84,8 @@ export default class Tank extends Motion implements ITank {
   public render(): void {
     Render.renderTank(this);
   }
+
+  public clearTank(): void {
+    Render.clearTank(this);
+  }
 }

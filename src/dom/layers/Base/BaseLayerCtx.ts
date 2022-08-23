@@ -1,4 +1,5 @@
 import { InitialSettings } from 'src/types/layer';
+import { Size } from 'src/types/size';
 import { LAYER_SIZE } from 'src/constants/layer';
 
 const CANVAS_CONTEXT_ID = '2d';
@@ -63,6 +64,10 @@ export default class BaseLayerCtx {
     }
 
     return ctx;
+  }
+
+  static get size(): Size {
+    return LAYER_SIZE;
   }
 
   public get node(): HTMLCanvasElement {
