@@ -23,7 +23,7 @@ export type BoxMapEntityType = {
 export type WaterMapEntityType = {
   readonly type: 'water';
   readonly destructible: false;
-  readonly surmountable: true;
+  readonly surmountable: false;
 } & BaseMapEntityProps;
 
 export type ForestMapEntityType = {

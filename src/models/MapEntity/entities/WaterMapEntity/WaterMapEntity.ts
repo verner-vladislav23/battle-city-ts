@@ -12,7 +12,7 @@ export default class WaterMapEntity extends MapEntity<WaterMapEntityType> {
     return {
       type: 'water',
       destructible: false,
-      surmountable: true,
+      surmountable: false,
       size: { width: 40, height: 40 },
       position,
     };
