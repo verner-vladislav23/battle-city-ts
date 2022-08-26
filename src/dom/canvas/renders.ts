@@ -3,6 +3,7 @@ import MapLayerCtx from '../layers/Map/MapLayerCtx';
 import { ITank } from '../../models/Tank/interface';
 import { IBullet } from '../../models/Bullet/interface';
 import { IMap } from '../../models/Map/interface';
+import tankImage from 'src/assets/tank.png';
 import {
   BoxMapEntityType,
   ForestMapEntityType,
@@ -21,12 +22,20 @@ export default class Render {
     const ctx = MapLayerCtx.ctx;
 
     ctx.fillStyle = 'black';
-    ctx.fillRect(
-      wall.position.x,
-      wall.position.y,
-      wall.size.width,
-      wall.size.height,
-    );
+    const image = new Image();
+    image.onload = () => {
+      ctx.drawImage(image, 500, 250, wall.size.width, wall.size.height, wall.position.x, wall.position.y, wall.size.width, wall.size.height);
+    };
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    image.src = tankImage;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    // ctx.drawImage(image, 500, 250, wall.size.width, wall.size.height, wall.position.x, wall.position.y, wall.size.width, wall.size.height);
+    // ctx.fillRect(
+    //   wall.position.x,
+    //   wall.position.y,
+    //   wall.size.width,
+    //   wall.size.height,
+    // );
   }
 
   static clearWall(wall: WallMapEntityType) {
