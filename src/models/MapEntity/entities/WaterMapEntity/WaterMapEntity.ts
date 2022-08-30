@@ -10,6 +10,7 @@ export default class WaterMapEntity extends MapEntity<WaterMapEntityType> {
 
   static makeEntityProps(position: Position): WaterMapEntityType {
     return {
+      isStatic: true,
       type: 'water',
       destructible: false,
       surmountable: true,

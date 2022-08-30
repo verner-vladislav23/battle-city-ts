@@ -13,7 +13,9 @@ import {
 export default class Render {
   static renderMap(map: IMap) {
     for (const mapEntity of map.entities) {
-      mapEntity.render();
+      if (mapEntity.isStatic) {
+        mapEntity.render();
+      }
     }
   }
 

@@ -1,4 +1,7 @@
-import MapEntity from './MapEntity';
-import { MapEntityType } from './types';
+import StaticMapEntity from './MapEntity';
+import DynamicMapEntity from './DynamicMapEntity/DynamicMapEntity';
+import { StaticMapEntityType, DynamicMapEntityType } from './types';
 
-export type IMapEntity = MapEntity<MapEntityType>;
+export type IMapEntity =
+  | StaticMapEntity<StaticMapEntityType>
+  | DynamicMapEntity<DynamicMapEntityType>;

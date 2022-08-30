@@ -4,34 +4,38 @@ import { Position } from '../../types/position';
 import Map from '../Map/Map';
 import MapLayerCtx from 'src/dom/layers/Map/MapLayerCtx';
 import { IMapEntity } from '../MapEntity/interface';
+import { DynamicMapEntityType } from '../MapEntity/types';
+import DynamicMapEntity from '../MapEntity/DynamicMapEntity/DynamicMapEntity';
 
 const DEFAULT_STEP = 10;
 
-export default abstract class Motion implements IMotion {
+export default abstract class Motion<T extends DynamicMapEntityType>
+  implements IMotion
+{
   public position: Position;
   public prevPosition: PrevPosition;
   public onCollision?: CollisionHandler<IMapEntity>;
   readonly height: number;
   readonly width: number;
+  private _dynamicMapEntity: DynamicMapEntity<T>;
   private readonly _step: number;
 
-  protected constructor(
-    position: Position,
-    height: number,
-    width: number,
-    step?: number,
-  ) {
-    this.position = position;
+  protected constructor(motionEntity: T) {
+    this.position = motionEntity.position;
     this.prevPosition = undefined;
-    this.height = height;
-    this.width = width;
+    this.height = motionEntity.size.height;
+    this.width = motionEntity.size.width;
     this.onCollision = undefined;
-    this._step = step || DEFAULT_STEP;
+    this._step = motionEntity.step || DEFAULT_STEP;
+
+    this._dynamicMapEntity = new DynamicMapEntity<T>(motionEntity);
   }
 
   private move(position: Position): void {
     this.prevPosition = this.position;
     this.position = position;
+
+    this._dynamicMapEntity.updatePosition(this.prevPosition, this.position);
   }
 
   private getNextPosition2(nextPosition1: Position) {
@@ -46,7 +50,12 @@ export default abstract class Motion implements IMotion {
     intentNextP2: Position,
   ): void {
     const map = Map.getMap();
-    const collisions = map.getCollisions(intentNextP1, intentNextP2);
+
+    const collisions = map.getCollisions(
+      intentNextP1,
+      intentNextP2,
+      this._dynamicMapEntity.id,
+    );
 
     if (
       collisions.length === 0 ||
@@ -125,5 +134,9 @@ export default abstract class Motion implements IMotion {
     }
 
     this.handleCollision(intentNextPosition1, intentNextPosition2);
+  }
+
+  protected destroy(cb: () => void) {
+    this._dynamicMapEntity.destroy(cb);
   }
 }

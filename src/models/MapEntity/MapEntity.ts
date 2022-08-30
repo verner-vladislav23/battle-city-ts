@@ -1,18 +1,18 @@
 import Mapper from '../Map/Map';
 import { IMapEntity } from './interface';
-import { MapEntityType } from './types';
+import { StaticMapEntityType } from './types';
 
-export default abstract class MapEntity<T extends MapEntityType>
-  implements IMapEntity
-{
-  public readonly type: MapEntityType['type'];
-  public readonly destructible: MapEntityType['destructible'];
-  public readonly surmountable: MapEntityType['surmountable'];
-  public readonly position: MapEntityType['position'];
-  public readonly size: MapEntityType['size'];
+export default abstract class StaticMapEntity<T extends StaticMapEntityType> {
+  public readonly isStatic: StaticMapEntityType['isStatic'];
+  public readonly type: StaticMapEntityType['type'];
+  public readonly destructible: StaticMapEntityType['destructible'];
+  public readonly surmountable: StaticMapEntityType['surmountable'];
+  public readonly position: StaticMapEntityType['position'];
+  public readonly size: StaticMapEntityType['size'];
   protected readonly _entity: T;
 
   protected constructor(entity: T) {
+    this.isStatic = entity.isStatic;
     this.type = entity.type;
     this.destructible = entity.destructible;
     this.surmountable = entity.surmountable;
@@ -28,6 +28,6 @@ export default abstract class MapEntity<T extends MapEntityType>
   }
 
   destroy() {
-    Mapper.getMap().removeEntity(this._entity);
+    Mapper.getMap().removeEntity(this.position);
   }
 }

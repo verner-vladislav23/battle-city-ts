@@ -5,14 +5,27 @@ import MapLayerCtx from 'src/dom/layers/Map/MapLayerCtx';
 import { IBullet } from './interface';
 import { TANK_DIRECTION, TANK_HEIGHT, TANK_WIDTH } from '../Tank/constants';
 import { TankDirection } from '../Tank/types';
-import { BULLET_STEP, BULLET_WIDTH, BULLET_HEIGHT } from './constants';
+import { BulletMapEntityType } from '../MapEntity/types';
+import { generateID } from 'src/utils';
+import {
+  BULLET_WIDTH,
+  BULLET_HEIGHT,
+  BULLET_MAP_ENTITY_PROPS,
+} from './constants';
 
-export default class Bullet extends Motion implements IBullet {
+export default class Bullet
+  extends Motion<BulletMapEntityType>
+  implements IBullet
+{
   private _destructed: boolean;
   private animationID: number;
 
   constructor(public tankPosition: Position, tankDirection: TankDirection) {
-    super(tankPosition, BULLET_HEIGHT, BULLET_WIDTH, BULLET_STEP);
+    super({
+      ...BULLET_MAP_ENTITY_PROPS,
+      position: tankPosition,
+      id: generateID(),
+    });
     this.position = this.calculateBulletStartPosition(
       tankPosition,
       tankDirection,
@@ -69,7 +82,6 @@ export default class Bullet extends Motion implements IBullet {
         return true;
       }
     }
-
     if (
       tankDirection === TANK_DIRECTION.LEFT ||
       tankDirection === TANK_DIRECTION.RIGHT
@@ -119,9 +131,11 @@ export default class Bullet extends Motion implements IBullet {
   }
 
   public destroy(): void {
-    this._destructed = true;
-    this.clear();
-    window.cancelAnimationFrame(this.animationID);
+    super.destroy(() => {
+      this._destructed = true;
+      this.clear();
+      window.cancelAnimationFrame(this.animationID);
+    });
   }
 
   render() {
