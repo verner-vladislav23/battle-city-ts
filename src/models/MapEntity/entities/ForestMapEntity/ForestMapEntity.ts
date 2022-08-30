@@ -10,6 +10,7 @@ export default class ForestMapEntity extends MapEntity<ForestMapEntityType> {
 
   static makeEntityProps(position: Position): ForestMapEntityType {
     return {
+      isStatic: true,
       type: 'forest',
       destructible: false,
       surmountable: true,

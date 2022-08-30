@@ -17,6 +17,7 @@ export default class WallMapEntity extends MapEntity<WallMapEntityType> {
 
   static get getEntityProps(): MapEntityProps<WallMapEntityType> {
     return {
+      isStatic: true,
       type: 'wall',
       destructible: true,
       surmountable: false,

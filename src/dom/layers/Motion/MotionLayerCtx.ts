@@ -1,7 +1,8 @@
-import { InitialSettings } from '../../../types/layer';
+import { InitialSettings } from 'src/types/layer';
 import BaseLayerCtx from '../Base/BaseLayerCtx';
-import Map from '../../../models/Map/Map';
-import Tank from '../../../models/Tank/Tank';
+import Map from 'src/models/Map/Map';
+import Tank from 'src/models/Tank/Tank';
+import TankBot from 'src/models/TankBot/TankBot';
 
 import { keyDownEvent } from '../../canvas/events';
 
@@ -20,12 +21,14 @@ export default class MotionLayerCtx extends BaseLayerCtx {
 
   private listenKeyboard(): void {
     const map = Map.getMap();
-    const tank = new Tank({ x: 100, y: 460 });
+    const tank = new Tank({ x: 100, y: 400 });
 
     map.generateMap();
     map.render();
 
     tank.render();
+
+    new TankBot({ x: 400, y: 400 });
 
     this.node.addEventListener('keydown', event => keyDownEvent(event, tank));
   }

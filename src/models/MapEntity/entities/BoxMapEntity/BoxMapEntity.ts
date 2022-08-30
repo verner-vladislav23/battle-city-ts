@@ -10,6 +10,7 @@ export default class BoxMapEntity extends MapEntity<BoxMapEntityType> {
 
   static makeEntityProps(position: Position): BoxMapEntityType {
     return {
+      isStatic: true,
       type: 'box',
       destructible: false,
       surmountable: false,

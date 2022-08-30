@@ -1,35 +1,39 @@
 import { Position } from 'src/types/position';
 import Render from 'src/dom/canvas/renders';
-import { delay } from 'src/utils';
+import { delay, generateID } from 'src/utils';
 
 import { ITank } from './interface';
+import { TankMapEntityType } from '../MapEntity/types';
 import Motion from '../Motion/Motion';
 import Bullet from '../Bullet/Bullet';
 import {
-  TANK_HEIGHT,
-  TANK_WIDTH,
-  TANK_STEP,
   TANK_DIRECTION,
+  TANK_MAP_ENTITY_PROPS,
   INITIAL_TANK_DIRECTION,
   BULLET_GENERATE_TIMOUT,
 } from './constants';
 import { TankDirection } from './types';
 
-export default class Tank extends Motion implements ITank {
-  private _direction: TankDirection;
-  private _canCreateBullet: boolean;
+export default class Tank extends Motion<TankMapEntityType> implements ITank {
+  protected _direction: TankDirection;
+  protected _canCreateBullet: boolean;
 
   constructor(public position: Position) {
-    super(position, TANK_HEIGHT, TANK_WIDTH, TANK_STEP);
+    super({
+      ...TANK_MAP_ENTITY_PROPS,
+      position,
+      id: generateID(),
+    });
+
     this._direction = INITIAL_TANK_DIRECTION;
     this._canCreateBullet = true;
   }
 
-  private changeDirection(direction: TankDirection) {
+  protected changeDirection(direction: TankDirection) {
     this._direction = direction;
   }
 
-  private createBullet(): Bullet | null {
+  protected createBullet(): Bullet | null {
     if (!this._canCreateBullet) {
       return null;
     }
@@ -73,14 +77,31 @@ export default class Tank extends Motion implements ITank {
       bullet.onCollision = (mapEntities, map) => {
         mapEntities.forEach(mapEntity => {
           if (mapEntity.type === 'wall') {
+            bullet.destroy();
             mapEntity.destroy();
+          }
+          if (mapEntity.type === 'tank') {
+            console.log(mapEntity);
+
+            mapEntity.destroy(() => {
+              this.clearTank();
+              this._canCreateBullet = false;
+            });
+            bullet.destroy();
           }
         });
         // console.log(JSON.stringify(mapEntities, null, 2));
 
-        bullet.destroy();
+        // bullet.destroy();
       };
     }
+  }
+
+  public destroy() {
+    super.destroy(() => {
+      this._canCreateBullet = false;
+      this.clearTank();
+    });
   }
 
   public render(): void {
